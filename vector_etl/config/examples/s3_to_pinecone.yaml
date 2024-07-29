@@ -1,0 +1,23 @@
+source:
+  source_data_type: "Amazon S3"
+  bucket_name: "myBucket"
+  prefix: "Dir/Subdir/"
+  file_type: "csv" #required if prefix is a directory: Will retrieve all files with filetype
+  aws_access_key_id: "your-access-key"
+  aws_secret_access_key: "your-secret-access-key"
+
+embedding:
+  embedding_model: "OpenAI"
+  api_key: "your-openai-api-key"
+  model_name: "text-embedding-ada-002"
+
+target:
+  target_database: "Pinecone"
+  pinecone_api_key: "your-pinecone-api-key"
+  index_name: "my-index"
+  dimension: 1536 #[Optional] Only required if creating a new index
+  metric: "cosine" #[Optional] Only required if creating a new index
+  cloud: "aws" #[Optional] Only required if creating a new index
+  region: "us-east-1" #[Optional] Only required if creating a new index
+
+embed_columns: [] #Empty Array: File based sources do not require embedding columns

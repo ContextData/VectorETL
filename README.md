@@ -1,0 +1,450 @@
+<div align="center">
+        <a href="https://contextdata.ai"><img src="https://contextdata.nyc3.digitaloceanspaces.com/rs/images/ContextDataDark.png" width="300"></a>
+   <p></p>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" /></a>
+</div>
+
+## VectorETL: Lightweight ETL Framework for Vector Databases
+
+## Table of Content
+1. Installation
+2. Usage
+3. Project Overview
+4. Features
+5. Configuration
+   - Source Configuration
+   - Embedding Configuration
+   - Target Configuration
+6. Contributing
+
+
+## 1. Installation
+`[pip install placeholder]`
+
+
+## 5. Usage
+
+This section provides instructions on how to use the ETL framework for Vector Databases. We'll cover running, validating configurations, and provide some common usage examples.
+
+### Running the ETL Framework
+
+To run the ETL framework, use the following command:
+
+```bash
+python main.py -c /path/to/your/config.yaml
+```
+
+For convenience, there is a config subdirectory where you can save all of your configuration files
+
+```bash
+python main.py -c config/config.yaml
+```
+
+or if you're using a JSON configuration:
+
+```bash
+python main.py -c config/config.json
+```
+
+Replace `/path/to/your/config.yaml` or `/path/to/your/config.json` with the actual path to your configuration file.
+
+### Validating a Configuration File
+
+Before running the full ETL process, you can validate your configuration file to ensure it's correctly formatted and contains all necessary information:
+
+```bash
+python main.py validate -c /path/to/your/config.yaml
+```
+
+This command will check your configuration file and report any issues without actually running the ETL process.
+
+### Common Usage Examples
+
+Here are some examples of how to use the ETL framework for different scenarios:
+
+#### 1. Processing Data from a PostgreSQL Database to Pinecone
+
+```bash
+python main.py -c config/postgres_to_pinecone.yaml
+```
+
+Where `postgres_to_pinecone.yaml` might look like:
+
+```yaml
+source:
+  source_data_type: "database"
+  db_type: "postgres"
+  host: "localhost"
+  database_name: "customer_data"
+  username: "user"
+  password: "password"
+  port: 5432
+  query: "SELECT * FROM customers WHERE updated_at > :last_updated_at"
+  batch_size: 1000
+  chunk_size: 1000
+  chunk_overlap: 0
+
+embedding:
+  embedding_model: "OpenAI"
+  api_key: ${OPENAI_API_KEY}
+  model_name: "text-embedding-ada-002"
+
+target:
+  target_database: "Pinecone"
+  pinecone_api_key: ${PINECONE_API_KEY}
+  index_name: "customer-embeddings"
+  dimension: 1536
+  metric: "cosine"
+
+embed_columns:
+  - "customer_name"
+  - "customer_description"
+  - "purchase_history"
+```
+
+#### 2. Processing CSV Files from S3 to Qdrant
+
+```bash
+python main.py -c config/s3_to_qdrant.yaml
+```
+
+Where `s3_to_qdrant.yaml` might look like:
+
+```yaml
+source:
+  source_data_type: "Amazon S3"
+  bucket_name: "my-data-bucket"
+  prefix: "customer_data/"
+  file_type: "csv"
+  aws_access_key_id: ${AWS_ACCESS_KEY_ID}
+  aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+  chunk_size: 1000
+  chunk_overlap: 200
+
+embedding:
+  embedding_model: "Cohere"
+  api_key: ${COHERE_API_KEY}
+  model_name: "embed-english-v2.0"
+
+target:
+  target_database: "Qdrant"
+  qdrant_url: "https://your-qdrant-cluster-url.qdrant.io"
+  qdrant_api_key: ${QDRANT_API_KEY}
+  collection_name: "customer_embeddings"
+
+embed_columns: []
+```
+
+## 3. Project Overview
+
+The VectorETL (Extract, Transform, Load) framework is a powerful and flexible tool designed to streamline the process of extracting data from various sources, transforming it into vector embeddings, and loading these embeddings into a range of vector databases. It's built with modularity, scalability, and ease of use in mind, making it an ideal solution for organizations looking to leverage the power of vector search in their data infrastructure.
+
+### Key Aspects:
+
+1. **Versatile Data Extraction**:
+   The framework supports a wide array of data sources, including traditional databases, cloud storage solutions (like Amazon S3 and Google Cloud Storage), and popular SaaS platforms (such as Stripe and Zendesk). This versatility allows you to consolidate data from multiple sources into a unified vector database.
+
+2. **Advanced Text Processing**:
+   For textual data, the framework implements sophisticated chunking and overlapping techniques. This ensures that the semantic context of the text is preserved when creating vector embeddings, leading to more accurate search results.
+
+3. **State-of-the-Art Embedding Models**:
+   The system integrates with leading embedding models, including OpenAI, Cohere, Google Gemini, and Azure OpenAI. This allows you to choose the embedding model that best fits your specific use case and quality requirements.
+
+4. **Multiple Vector Database Support**:
+   Whether you're using Pinecone, Qdrant, Weaviate, SingleStore, Supabase, or LanceDB, this framework has you covered. It's designed to seamlessly interface with these popular vector databases, allowing you to choose the one that best suits your needs.
+
+5. **Configurable and Extensible**:
+   The entire framework is highly configurable through YAML or JSON configuration files. Moreover, its modular architecture makes it easy to extend with new data sources, embedding models, or vector databases as your needs evolve.
+
+This ETL framework is ideal for organizations looking to implement or upgrade their vector search capabilities.
+
+By automating the process of extracting data, creating vector embeddings, and storing them in a vector database, this framework significantly reduces the time and complexity involved in setting up a vector search system. It allows data scientists and engineers to focus on deriving insights and building applications, rather than worrying about the intricacies of data processing and vector storage.
+
+## 4. Features
+- Modular architecture with support for multiple data sources, embedding models, and vector databases
+- Batch processing for efficient handling of large datasets
+- Configurable chunking and overlapping for text data
+- Easy integration of new data sources, embedding models, and vector databases
+- Robust error handling and logging
+
+## 5. Configuration
+
+The ETL framework uses a configuration file to specify the details of the source, embedding model, target database, and other parameters. You can use either YAML or JSON format for the configuration file.
+
+### Configuration File Structure
+
+The configuration file is divided into three main sections:
+
+1. `source`: Specifies the data source details
+2. `embedding`: Defines the embedding model to be used
+3. `target`: Outlines the target vector database
+4. `embed_columns`: Defines the columns that need to be embedded (mainly for structured data sources)
+
+### Example Configurations
+
+#### YAML Configuration
+
+```yaml
+source:
+  source_data_type: "database"
+  db_type: "postgres"
+  host: "localhost"
+  database_name: "mydb"
+  username: "user"
+  password: "password"
+  port: 5432
+  query: "SELECT * FROM mytable WHERE updated_at > :last_updated_at"
+  batch_size: 1000
+  chunk_size: 1000
+  chunk_overlap: 0
+
+embedding:
+  embedding_model: "OpenAI"
+  api_key: "your-openai-api-key"
+  model_name: "text-embedding-ada-002"
+
+target:
+  target_database: "Pinecone"
+  pinecone_api_key: "your-pinecone-api-key"
+  index_name: "my-index"
+  dimension: 1536
+  metric: "cosine"
+  cloud: "aws"
+  region: "us-west-2"
+
+embed_columns:
+  - "column1"
+  - "column2"
+  - "column3"
+```
+
+#### JSON Configuration
+
+```json
+{
+  "source": {
+    "source_data_type": "database",
+    "db_type": "postgres",
+    "host": "localhost",
+    "database_name": "mydb",
+    "username": "user",
+    "password": "password",
+    "port": 5432,
+    "query": "SELECT * FROM mytable WHERE updated_at > :last_updated_at",
+    "batch_size": 1000,
+    "chunk_size": 1000,
+    "chunk_overlap": 0
+  },
+  "embedding": {
+    "embedding_model": "OpenAI",
+    "api_key": "your-openai-api-key",
+    "model_name": "text-embedding-ada-002"
+  },
+  "target": {
+    "target_database": "Pinecone",
+    "pinecone_api_key": "your-pinecone-api-key",
+    "index_name": "my-index",
+    "dimension": 1536,
+    "metric": "cosine",
+    "cloud": "aws",
+    "region": "us-west-2"
+  },
+  "embed_columns": ["column1", "column2", "column3"]
+}
+```
+
+### Configuration Sections Explained
+
+#### Source Configuration
+
+The `source` section varies based on the `source_data_type`. Here are examples for different source types:
+
+##### Database Source
+```yaml
+source:
+  source_data_type: "database"
+  db_type: "postgres"  # or "mysql", "snowflake", "salesforce"
+  host: "localhost"
+  database_name: "mydb"
+  username: "user"
+  password: "password"
+  port: 5432
+  query: "SELECT * FROM mytable WHERE updated_at > :last_updated_at"
+  batch_size: 1000
+  chunk_size: 1000
+  chunk_overlap: 0
+```
+
+##### S3 Source
+```yaml
+source:
+  source_data_type: "Amazon S3"
+  bucket_name: "my-bucket"
+  key: "path/to/files/"
+  file_type: ".csv"
+  aws_access_key_id: "your-access-key"
+  aws_secret_access_key: "your-secret-key"
+```
+
+##### Google Drive Source
+```yaml
+source:
+  source_data_type: "Google Drive"
+  credentials_path: "/path/to/your/credentials.json"
+  token_path: "/path/to/save/token.json"
+  folder_id: "your_folder_id"
+  file_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+```
+
+#### Embedding Configuration
+
+The `embedding` section specifies which embedding model to use:
+
+```yaml
+embedding:
+  embedding_model: "OpenAI"  # or "Cohere", "Google Gemini", "Azure OpenAI", "Hugging Face"
+  api_key: "your-api-key"
+  model_name: "text-embedding-ada-002"  # model name varies by provider
+```
+
+#### Target Configuration
+
+The `target` section varies based on the chosen vector database. Here's an example for Pinecone:
+
+```yaml
+target:
+  target_database: "Pinecone"
+  pinecone_api_key: "your-pinecone-api-key"
+  index_name: "my-index"
+  dimension: 1536
+  metric: "cosine"
+  cloud: "aws"
+  region: "us-west-2"
+```
+
+#### Embed Columns
+
+The `embed_columns` list specifies which columns from the source data should be used to generate the embeddings (only applies to database sources for now):
+
+```yaml
+embed_columns:
+  - "column1"
+  - "column2"
+  - "column3"
+```
+
+The `embed_columns` list is only required for structured data sources (e.g. PostgreSQL, MySQL, Snowflake). For all other sources, use an empty list
+
+```yaml
+embed_columns: []
+```
+
+### Handling Sensitive Information
+
+To protect sensitive information like API keys and passwords, consider using environment variables or a secure secrets management system. You can then reference these in your configuration file:
+
+```yaml
+embedding:
+  api_key: ${OPENAI_API_KEY}
+```
+
+This allows you to keep your configuration files in version control without exposing sensitive data.
+
+Remember to adjust your configuration based on your specific data sources, embedding models, and target databases. Refer to the documentation for each service to ensure you're providing all required parameters.
+
+## 6. Contributing
+
+We welcome contributions to the ETL Framework for Vector Databases! Whether you're fixing bugs, improving documentation, or proposing new features, your efforts are appreciated. Here's how you can contribute:
+
+### Reporting Issues
+
+If you encounter a bug or have a suggestion for improving the ETL framework:
+
+1. Check the [GitHub Issues](https://github.com/ContextData/VectorETL/issues) to see if the issue or suggestion has already been reported.
+2. If not, open a new issue. Provide a clear title and description, and as much relevant information as possible, including:
+   - Steps to reproduce (for bugs)
+   - Expected behavior
+   - Actual behavior
+   - Your operating system and Python version
+   - Relevant parts of your configuration file (remember to remove sensitive information)
+
+### Suggesting Enhancements
+
+We're always looking for ways to make the ETL framework better. If you have ideas:
+
+1. Open a new issue on GitHub.
+2. Use a clear and descriptive title.
+3. Provide a detailed description of the suggested enhancement.
+4. Explain why this enhancement would be useful to most users.
+
+### Pull Requests
+
+We actively welcome your pull requests:
+
+1. Fork the repo and create your branch from `main`.
+2. If you've added code that should be tested, add tests.
+3. If you've changed APIs, update the documentation.
+4. Ensure the test suite passes.
+5. Make sure your code follows the existing style conventions (see Coding Standards below).
+6. Issue that pull request!
+
+### Coding Standards
+
+To maintain consistency throughout the project, please adhere to these coding standards:
+
+1. Follow [PEP 8](https://www.python.org/dev/peps/pep-0008/) style guide for Python code.
+2. Use meaningful variable names and add comments where necessary.
+3. Write docstrings for all functions, classes, and modules.
+4. Keep functions small and focused on a single task.
+5. Use type hints to improve code readability and catch potential type-related errors.
+
+### Documentation
+
+Improving documentation is always appreciated:
+
+- If you find a typo or an error in the documentation, feel free to submit a pull request with the correction.
+- For substantial changes to documentation, please open an issue first to discuss the proposed changes.
+
+### Adding New Features
+
+If you're thinking about adding a new feature:
+
+1. Open an issue to discuss the feature before starting development.
+2. For new data sources:
+   - Add a new file in the `source_classes` directory.
+   - Implement the necessary methods as defined in the base class.
+   - Update the `get_source_class` function in `source_classes/__init__.py`.
+3. For new embedding models:
+   - Add a new file in the `embedding_classes` directory.
+   - Implement the necessary methods as defined in the base class.
+   - Update the `get_embedding_model` function in `embedding_classes/__init__.py`.
+4. For new vector databases:
+   - Add a new file in the `target_classes` directory.
+   - Implement the necessary methods as defined in the base class.
+   - Update the `get_target_database` function in `target_classes/__init__.py`.
+
+### Testing
+
+- Write unit tests for new features or bug fixes.
+- Ensure all tests pass before submitting a pull request.
+- Aim for high test coverage, especially for critical parts of the codebase.
+
+### Commit Messages
+
+- Use clear and meaningful commit messages.
+- Start the commit message with a short summary (up to 50 characters).
+- If necessary, provide more detailed explanations in subsequent lines.
+
+### Review Process
+
+- All submissions, including submissions by project members, require review.
+- We use GitHub pull requests for this purpose.
+- Reviewers may request changes before a pull request can be merged.
+
+### Community and Behavioral Expectations
+
+- Be respectful and inclusive in your language and actions.
+- Be patient and welcoming to newcomers.
+- Respect different viewpoints and experiences.
+- Gracefully accept constructive criticism.
+
