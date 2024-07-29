@@ -19,10 +19,14 @@
 
 
 ## 1. Installation
-`[pip install placeholder]`
+`pip install vector-etl`
+
+or
+
+`pip install git+https://github.com/ContextData/vector_etl.git`
 
 
-## 5. Usage
+## 2. Usage
 
 This section provides instructions on how to use the ETL framework for Vector Databases. We'll cover running, validating configurations, and provide some common usage examples.
 

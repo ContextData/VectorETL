@@ -1,5 +1,6 @@
 import logging
 import yaml
+import os
 import json
 import argparse
 from vector_etl.orchestrator import run_etl_process
@@ -18,11 +19,15 @@ def load_config(file_path):
 
 def main():
     parser = argparse.ArgumentParser(description="Run ETL process")
-    parser.add_argument('-c', '--config', type=str, required=True, help="Path to configuration file")
+    parser.add_argument('-c', '--config', type=str, default='config/config.yaml',
+                        help="Path to configuration file")
     args = parser.parse_args()
 
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(current_dir, args.config)
+
     try:
-        config = load_config(args.config)
+        config = load_config(config_path)
 
         run_etl_process(config['source'],
                         config['embedding'],
