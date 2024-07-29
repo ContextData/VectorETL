@@ -35,29 +35,41 @@ This section provides instructions on how to use the ETL framework for Vector Da
 To run the ETL framework, use the following command:
 
 ```bash
-python main.py -c /path/to/your/config.yaml
+vector_etl -c /path/to/your/config.yaml
 ```
 
-For convenience, there is a config subdirectory where you can save all of your configuration files
+For convenience, there is a config subdirectory where you can save all of your configuration files.
 
 ```bash
-python main.py -c config/config.yaml
+vector_etl -c config/config.yaml
+```
+
+If you save the your config file inside the config directory as `config/config.yaml`, then you can run the command without having to specify the config file
+
+```bash
+vector_etl
 ```
 
 or if you're using a JSON configuration:
 
 ```bash
-python main.py -c config/config.json
+vector_etl -c config/config.json
 ```
 
-Replace `/path/to/your/config.yaml` or `/path/to/your/config.json` with the actual path to your configuration file.
+You can also choose to point to a totally separate location for your config files without making any code changes
+
+Replace `/path/to/your/config.yaml` with the actual path to your configuration file.
+
+```bash
+vector_etl -c ../custom_configs/my_config.yaml
+```
 
 ### Validating a Configuration File
 
 Before running the full ETL process, you can validate your configuration file to ensure it's correctly formatted and contains all necessary information:
 
 ```bash
-python main.py validate -c /path/to/your/config.yaml
+vector_etl validate -c /path/to/your/config.yaml
 ```
 
 This command will check your configuration file and report any issues without actually running the ETL process.
@@ -69,7 +81,7 @@ Here are some examples of how to use the ETL framework for different scenarios:
 #### 1. Processing Data from a PostgreSQL Database to Pinecone
 
 ```bash
-python main.py -c config/postgres_to_pinecone.yaml
+vector_etl -c config/postgres_to_pinecone.yaml
 ```
 
 Where `postgres_to_pinecone.yaml` might look like:
@@ -109,7 +121,7 @@ embed_columns:
 #### 2. Processing CSV Files from S3 to Qdrant
 
 ```bash
-python main.py -c config/s3_to_qdrant.yaml
+vector_etl -c config/s3_to_qdrant.yaml
 ```
 
 Where `s3_to_qdrant.yaml` might look like:
