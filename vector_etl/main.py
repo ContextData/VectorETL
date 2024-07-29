@@ -2,7 +2,7 @@ import logging
 import yaml
 import json
 import argparse
-from orchestrator import run_etl_process
+from vector_etl.orchestrator import run_etl_process
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

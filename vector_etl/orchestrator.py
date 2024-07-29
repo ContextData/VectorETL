@@ -2,9 +2,9 @@ import logging
 import pandas as pd
 import uuid
 import requests
-from source_mods import get_source_class
-from embedding_mods import get_embedding_model
-from target_mods import get_target_database
+from vector_etl.source_mods import get_source_class
+from vector_etl.embedding_mods import get_embedding_model
+from vector_etl.target_mods import get_target_database
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
