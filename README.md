@@ -1,5 +1,5 @@
 <div align="center">
-        <a href="https://contextdata.ai"><img src="https://contextdata.nyc3.digitaloceanspaces.com/rs/images/ContextDataDark.png" width="300"></a>
+        <a href="https://contextdata.ai"><img src="https://contextdata.nyc3.digitaloceanspaces.com/rs/images/ContextDataDark.png" width="350"></a>
    <p></p>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" /></a>
 </div>
@@ -35,7 +35,7 @@ This pipeline aims to simplify the creation and management of vector search syst
 
 or
 
-`pip install git+https://github.com/ContextData/vector_etl.git`
+`pip install git+https://github.com/ContextData/VectorETL.git`
 
 
 ## 2. Usage
