@@ -8,7 +8,9 @@
   <p>VectorETL: Lightweight ETL Framework for Vector Databases</p>
 </h2>
 
-VectorETL by [Context Data](https://contextdata.ai) is a flexible and modular Python framework designed to streamline the process of converting diverse data sources into vector embeddings and storing them in various vector databases. It supports multiple data sources (databases, cloud storage, and local files), various embedding models (including OpenAI, Cohere, and Google Gemini), and several vector database targets (like Pinecone, Qdrant, and Weaviate). This pipeline aims to simplify the creation and management of vector search systems, enabling developers and data scientists to easily build and scale applications that require semantic search, recommendation systems, or other vector-based operations.
+VectorETL by [Context Data](https://contextdata.ai) is a flexible and modular Python framework designed to streamline the process of converting diverse data sources into vector embeddings and storing them in various vector databases. It supports multiple data sources (databases, cloud storage, and local files), various embedding models (including OpenAI, Cohere, and Google Gemini), and several vector database targets (like Pinecone, Qdrant, and Weaviate).
+
+This pipeline aims to simplify the creation and management of vector search systems, enabling developers and data scientists to easily build and scale applications that require semantic search, recommendation systems, or other vector-based operations.
 
 ### Features
 - Modular architecture with support for multiple data sources, embedding models, and vector databases
