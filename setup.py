@@ -67,6 +67,7 @@ setup(
         "unstructured-client",
         "box-sdk-gen",
         "python-magic",
+        "pytest",
     ],
     entry_points={
         "console_scripts": [

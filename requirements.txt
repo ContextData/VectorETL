@@ -40,3 +40,4 @@ google-api-python-client
 unstructured-client
 box-sdk-gen
 python-magic
+pytest
