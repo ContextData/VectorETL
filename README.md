@@ -4,18 +4,28 @@
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" /></a>
 </div>
 
-## VectorETL: Lightweight ETL Framework for Vector Databases
+<h2 align="center">
+  <p>VectorETL: Lightweight ETL Framework for Vector Databases</p>
+</h2>
+
+VectorETL by [Context Data](https://contextdata.ai) is a flexible and modular Python framework designed to streamline the process of converting diverse data sources into vector embeddings and storing them in various vector databases. It supports multiple data sources (databases, cloud storage, and local files), various embedding models (including OpenAI, Cohere, and Google Gemini), and several vector database targets (like Pinecone, Qdrant, and Weaviate). This pipeline aims to simplify the creation and management of vector search systems, enabling developers and data scientists to easily build and scale applications that require semantic search, recommendation systems, or other vector-based operations.
+
+### Features
+- Modular architecture with support for multiple data sources, embedding models, and vector databases
+- Batch processing for efficient handling of large datasets
+- Configurable chunking and overlapping for text data
+- Easy integration of new data sources, embedding models, and vector databases
+- Robust error handling and logging
 
 ## Table of Content
-1. Installation
-2. Usage
-3. Project Overview
-4. Features
-5. Configuration
+1. [Installation](#1-installation)
+2. [Usage](#2-usage)
+3. [Project Overview](#3-project-overview)
+4. [Configuration](#4-configuration)
    - Source Configuration
    - Embedding Configuration
    - Target Configuration
-6. Contributing
+5. [Contributing](#5-contributing)
 
 
 ## 1. Installation
@@ -176,14 +186,8 @@ This ETL framework is ideal for organizations looking to implement or upgrade th
 
 By automating the process of extracting data, creating vector embeddings, and storing them in a vector database, this framework significantly reduces the time and complexity involved in setting up a vector search system. It allows data scientists and engineers to focus on deriving insights and building applications, rather than worrying about the intricacies of data processing and vector storage.
 
-## 4. Features
-- Modular architecture with support for multiple data sources, embedding models, and vector databases
-- Batch processing for efficient handling of large datasets
-- Configurable chunking and overlapping for text data
-- Easy integration of new data sources, embedding models, and vector databases
-- Robust error handling and logging
 
-## 5. Configuration
+## 4. Configuration
 
 The ETL framework uses a configuration file to specify the details of the source, embedding model, target database, and other parameters. You can use either YAML or JSON format for the configuration file.
 
@@ -368,7 +372,7 @@ This allows you to keep your configuration files in version control without expo
 
 Remember to adjust your configuration based on your specific data sources, embedding models, and target databases. Refer to the documentation for each service to ensure you're providing all required parameters.
 
-## 6. Contributing
+## 5. Contributing
 
 We welcome contributions to the ETL Framework for Vector Databases! Whether you're fixing bugs, improving documentation, or proposing new features, your efforts are appreciated. Here's how you can contribute:
 
@@ -456,11 +460,4 @@ If you're thinking about adding a new feature:
 - All submissions, including submissions by project members, require review.
 - We use GitHub pull requests for this purpose.
 - Reviewers may request changes before a pull request can be merged.
-
-### Community and Behavioral Expectations
-
-- Be respectful and inclusive in your language and actions.
-- Be patient and welcoming to newcomers.
-- Respect different viewpoints and experiences.
-- Gracefully accept constructive criticism.
 
