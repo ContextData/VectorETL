@@ -12,6 +12,7 @@ class DropboxSource(FileBaseSource):
         super().__init__(config)
         self.dbx = None
         self.folder_path = config['folder_path']
+        self.file_type = config.get('file_type', '')
 
     def connect(self):
         logger.info("Connecting to Dropbox...")
@@ -27,7 +28,10 @@ class DropboxSource(FileBaseSource):
         while True:
             for entry in response.entries:
                 if isinstance(entry, dropbox.files.FileMetadata):
-                    files.append(entry.path_lower)
+                    print("======================")
+                    print(entry)
+                    if entry.path_lower.endswith(self.file_type):
+                        files.append(entry.path_lower)
             if response.has_more:
                 response = self.dbx.files_list_folder_continue(response.cursor)
             else:

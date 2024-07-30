@@ -97,26 +97,30 @@ class FileBaseSource(BaseSource):
     def fetch_data(self):
         logger.info("Fetching data from files...")
         files = self.list_files()
-        # files = self.download_files()
 
-        df = pd.DataFrame()
-        new_files = []
+        if not files: #if len(files) == 0:
+            logger.info("No files to process. Exiting...")
+            raise ValueError("No files found to process")
 
-        for file_path in files:
-            new_files.append(file_path)
-            temp_df = self.process_file(file_path)
+        else:
+            df = pd.DataFrame()
+            new_files = []
 
-            if df.empty:
-                df = temp_df
-            else:
-                df = pd.concat([df, temp_df], ignore_index=True)
+            for file_path in files:
+                new_files.append(file_path)
+                temp_df = self.process_file(file_path)
 
-        if not df.empty:
-            df = self.split_dataframe_column(df, self.chunk_size, self.chunk_overlap)
+                if df.empty:
+                    df = temp_df
+                else:
+                    df = pd.concat([df, temp_df], ignore_index=True)
 
-        delete_temp_dir = self.delete_directory('tempfile_downloads')
+            if not df.empty:
+                df = self.split_dataframe_column(df, self.chunk_size, self.chunk_overlap)
 
-        return df#, new_files
+            delete_temp_dir = self.delete_directory('tempfile_downloads')
+
+            return df
 
     def split_dataframe_column(self, df, chunk_size, chunk_overlap, column='text'):
         logger.info("Splitting dataframe into chunks...")

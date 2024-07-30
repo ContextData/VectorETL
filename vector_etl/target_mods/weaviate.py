@@ -24,7 +24,7 @@ class WeaviateTarget(BaseTarget):
         if self.client is None:
             self.connect()
 
-        class_name = self.config["index_name"]
+        class_name = self.config["class_name"]
         if not self.client.schema.exists(class_name):
             logger.info(f"Creating Weaviate class: {class_name}")
             class_obj = {
@@ -49,22 +49,8 @@ class WeaviateTarget(BaseTarget):
         if self.client is None:
             self.create_index_if_not_exists(len(df['embeddings'].iat[0]))
 
-        class_name = self.config["index_name"]
+        class_name = self.config["class_name"]
 
-        # index_name = self.config["index_name"]
-        # schema = {
-        #     "class": index_name,
-        #     "properties": [
-        #         # {
-        #         #     "name": "text",
-        #         #     "dataType": ["text"],
-        #         # }
-        #     ],
-        # }
-
-        # if not self.client.schema.contains(schema):
-        #     logger.info("Weaviate collection does not exist. Creating...")
-        #     self.client.schema.create_class(schema)
 
         with self.client.batch as batch:
             for _, row in df.iterrows():
@@ -93,7 +79,7 @@ class WeaviateTarget(BaseTarget):
                     params = {
                         "uuid": str(row["df_uuid"]),
                         "data_object": metadata,
-                        "class_name": index_name,
+                        "class_name": class_name,
                         "vector": row["embeddings"]
                     }
 

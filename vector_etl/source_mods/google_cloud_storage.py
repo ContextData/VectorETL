@@ -13,6 +13,7 @@ class GoogleCloudStorageSource(FileBaseSource):
         self.client = None
         self.bucket_name = config['bucket_name']
         self.prefix = config.get('prefix', '')
+        self.file_type = config.get('file_type', '')
 
     def connect(self):
         logger.info("Connecting to Google Cloud Storage...")
@@ -25,7 +26,7 @@ class GoogleCloudStorageSource(FileBaseSource):
 
         bucket = self.client.get_bucket(self.bucket_name)
         blobs = bucket.list_blobs(prefix=self.prefix)
-        return [blob.name for blob in blobs]
+        return [blob.name for blob in blobs if blob.name.endswith(self.file_type)]
 
     def read_file(self, file_path):
         bucket = self.client.get_bucket(self.bucket_name)

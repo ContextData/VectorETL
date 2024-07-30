@@ -17,7 +17,7 @@ This pipeline aims to simplify the creation and management of vector search syst
 - Batch processing for efficient handling of large datasets
 - Configurable chunking and overlapping for text data
 - Easy integration of new data sources, embedding models, and vector databases
-- Robust error handling and logging
+
 
 ## Table of Content
 1. [Installation](#1-installation)
@@ -308,14 +308,16 @@ source:
   aws_secret_access_key: "your-secret-key"
 ```
 
-##### Google Drive Source
+##### Google Cloud Storage (GCS) Source
 ```yaml
 source:
-  source_data_type: "Google Drive"
+  source_data_type: "Google Cloud Storage"
   credentials_path: "/path/to/your/credentials.json"
-  token_path: "/path/to/save/token.json"
-  folder_id: "your_folder_id"
-  file_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  bucket_name: "myBucket"
+  prefix: "prefix/"
+  file_type: "csv"
+  chunk_size: 1000
+  chunk_overlap: 0
 ```
 
 #### Embedding Configuration
