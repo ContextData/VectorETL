@@ -63,7 +63,7 @@ Here are some examples of how to use the ETL framework for different scenarios:
 #### 1. Processing Data from a PostgreSQL Database to Pinecone
 
 ```bash
-vector_etl -c config/postgres_to_pinecone.yaml
+vector-etl -c config/postgres_to_pinecone.yaml
 ```
 
 Where `postgres_to_pinecone.yaml` might look like:
@@ -103,7 +103,7 @@ embed_columns:
 #### 2. Processing CSV Files from S3 to Qdrant
 
 ```bash
-vector_etl -c config/s3_to_qdrant.yaml
+vector-etl -c config/s3_to_qdrant.yaml
 ```
 
 Where `s3_to_qdrant.yaml` might look like:
