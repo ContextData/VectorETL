@@ -50,41 +50,11 @@ To run the ETL framework, use the following command:
 vector_etl -c /path/to/your/config.yaml
 ```
 
-For convenience, there is a config subdirectory where you can save all of your configuration files.
-
-```bash
-vector_etl -c config/config.yaml
-```
-
-If you save the your config file inside the config directory as `config/config.yaml`, then you can run the command without having to specify the config file
-
-```bash
-vector_etl
-```
-
 or if you're using a JSON configuration:
 
 ```bash
-vector_etl -c config/config.json
+vector_etl -c /path/to/your/config.json
 ```
-
-You can also choose to point to a totally separate location for your config files without making any code changes
-
-Replace `/path/to/your/config.yaml` with the actual path to your configuration file.
-
-```bash
-vector_etl -c ../custom_configs/my_config.yaml
-```
-
-### Validating a Configuration File
-
-Before running the full ETL process, you can validate your configuration file to ensure it's correctly formatted and contains all necessary information:
-
-```bash
-vector_etl validate -c /path/to/your/config.yaml
-```
-
-This command will check your configuration file and report any issues without actually running the ETL process.
 
 ### Common Usage Examples
 
