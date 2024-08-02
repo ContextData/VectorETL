@@ -4,6 +4,7 @@ from .weaviate import WeaviateTarget
 from .singlestore import SingleStoreTarget
 from .supabase import SupabaseTarget
 from .lancedb import LanceDBTarget
+from .tembo import TemboTarget
 
 def get_target_database(config):
     target_type = config['target_database']
@@ -19,5 +20,7 @@ def get_target_database(config):
         return SupabaseTarget(config)
     elif target_type == 'LanceDB':
         return LanceDBTarget(config)
+    elif target_type == 'Tembo':
+        return TemboTarget(config)
     else:
         raise ValueError(f"Unsupported target database: {target_type}")
