@@ -164,7 +164,7 @@ cython_debug/
 # Config directory
 vector_etl/config/*
 !vector_etl/config/
-!vector_etl/config/examples/
+!examples/
 
 # Temporary test files
 vector_etl/tempfile_downloads/
