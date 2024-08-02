@@ -66,6 +66,7 @@ setup(
         "google-api-python-client",
         "unstructured-client",
         "box-sdk-gen",
+        "pymongo",
         "python-magic",
         "pytest",
     ],

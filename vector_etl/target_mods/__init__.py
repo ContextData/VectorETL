@@ -5,6 +5,7 @@ from .singlestore import SingleStoreTarget
 from .supabase import SupabaseTarget
 from .lancedb import LanceDBTarget
 from .tembo import TemboTarget
+from .mongodb import MongoDBTarget
 
 def get_target_database(config):
     target_type = config['target_database']
@@ -22,5 +23,7 @@ def get_target_database(config):
         return LanceDBTarget(config)
     elif target_type == 'Tembo':
         return TemboTarget(config)
+    elif target_type == 'MongoDB':
+        return MongoDBTarget(config)
     else:
         raise ValueError(f"Unsupported target database: {target_type}")
