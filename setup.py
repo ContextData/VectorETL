@@ -67,6 +67,7 @@ setup(
         "unstructured-client",
         "box-sdk-gen",
         "pymongo",
+        "neo4j",
         "python-magic",
         "pytest",
     ],

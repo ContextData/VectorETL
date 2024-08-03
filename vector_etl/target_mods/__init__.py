@@ -6,6 +6,7 @@ from .supabase import SupabaseTarget
 from .lancedb import LanceDBTarget
 from .tembo import TemboTarget
 from .mongodb import MongoDBTarget
+from .neo4j import Neo4jTarget
 
 def get_target_database(config):
     target_type = config['target_database']
@@ -25,5 +26,7 @@ def get_target_database(config):
         return TemboTarget(config)
     elif target_type == 'MongoDB':
         return MongoDBTarget(config)
+    elif target_type == 'Neo4j':
+        return Neo4jTarget(config)
     else:
         raise ValueError(f"Unsupported target database: {target_type}")
