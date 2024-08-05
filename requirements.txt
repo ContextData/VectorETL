@@ -23,9 +23,6 @@ stripe
 vecs
 simple-salesforce
 google-generativeai
-langchain-google-genai
-langchain-cohere
-langchain-anthropic
 anthropic
 pympler
 unstructured[all-docs]
