@@ -3,7 +3,7 @@ import yaml
 import os
 import json
 import argparse
-from vector_etl import __version__
+from vector_etl import __version__, run_etl_process
 from vector_etl.orchestrator import run_etl_process
 
 logging.basicConfig(level=logging.INFO)
