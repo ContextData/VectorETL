@@ -2,5 +2,62 @@
 requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-py-modules = []
+[project]
+name = "vector-etl"
+authors = [
+    {name = "Jide Ogunjobi", email = "jide@contextdata.ai"},
+]
+description = "Lightweight ETL Framework for Vector Databases"
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = ["vector database", "etl"]
+license = {text = "BSD-3-Clause"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+   "boto3",
+    "botocore",
+    "cohere",
+    "cffi",
+    "openai",
+    "psycopg2-binary",
+    "pinecone-client",
+    "requests",
+    "tiktoken",
+    "python-dotenv",
+    "pydantic",
+    "mysql-connector-python",
+    "pymysql",
+    "pandas",
+    "qdrant-client",
+    "singlestoredb",
+    "weaviate-client",
+    "azure-storage-blob",
+    "google-cloud-storage",
+    "snowflake-connector-python",
+    "stripe",
+    "vecs",
+    "simple-salesforce",
+    "google-generativeai",
+    "anthropic",
+    "pympler",
+    "unstructured[all-docs]",
+    "dropbox",
+    "zenpy",
+    "lancedb",
+    "pyyaml",
+    "google-auth",
+    "google-auth-oauthlib",
+    "google-auth-httplib2",
+    "google-api-python-client",
+    "unstructured-client",
+    "box-sdk-gen",
+    "pymongo",
+    "neo4j",
+    "python-magic",
+    "pytest",
+]
+dynamic = ["version"]
+
+[tool.setuptools_scm]

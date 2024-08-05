@@ -28,7 +28,7 @@ setup(
     install_requires=[
         "boto3",
         "botocore",
-        "cohere"
+        "cohere",
         "cffi",
         "openai",
         "psycopg2-binary",
