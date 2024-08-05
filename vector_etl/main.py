@@ -3,6 +3,7 @@ import yaml
 import os
 import json
 import argparse
+from vector_etl import __version__
 from vector_etl.orchestrator import run_etl_process
 
 logging.basicConfig(level=logging.INFO)
@@ -21,6 +22,8 @@ def main():
     parser = argparse.ArgumentParser(description="Run ETL process")
     parser.add_argument('-c', '--config', type=str, default='config/config.yaml',
                         help="Path to configuration file")
+    parser.add_argument('-v', '--version', action='version', version=f'%(prog)s {__version__}')
+
     args = parser.parse_args()
 
     current_dir = os.path.dirname(os.path.abspath(__file__))

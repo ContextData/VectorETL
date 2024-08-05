@@ -1,11 +1,12 @@
 from setuptools import setup, find_packages
+from vector_etl import __version__
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
     name="vector-etl",
-    version="0.1.0",
+    version=__version__,
     author="Jide Ogunjobi",
     author_email="jide@contextdata.ai",
     description="Lightweight ETL pipeline for processing data into vector databases",
