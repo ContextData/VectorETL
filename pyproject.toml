@@ -58,10 +58,9 @@ dependencies = [
     "python-magic",
     "pytest",
 ]
+dynamic = ["version"]
 
 [project.scripts]
 vector-etl = "vector_etl.main:main"
-
-dynamic = ["version"]
 
 [tool.setuptools_scm]
