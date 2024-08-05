@@ -166,6 +166,9 @@ vector_etl/config/*
 !vector_etl/config/
 !examples/
 
+# PyPI configuration
+.pypirc
+
 # Temporary test files
 vector_etl/tempfile_downloads/
 *_bkp.py
