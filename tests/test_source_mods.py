@@ -2,8 +2,8 @@ import pytest
 from unittest.mock import Mock, patch
 import pandas as pd
 from io import BytesIO
-from vector_etl.source_mods.s3 import S3Source
-from vector_etl.source_mods.database import DatabaseSource
+from vector_etl.source_mods.s3_loader import S3Source
+from vector_etl.source_mods.database_loader import DatabaseSource
 from vector_etl.source_mods.local_file import LocalFileSource
 
 @pytest.fixture

@@ -27,10 +27,10 @@ setup(
     install_requires=[
         "boto3",
         "botocore",
+        "cohere"
         "cffi",
         "openai",
         "psycopg2-binary",
-        "langchain",
         "pinecone-client",
         "requests",
         "tiktoken",
@@ -43,7 +43,6 @@ setup(
         "singlestoredb",
         "weaviate-client",
         "azure-storage-blob",
-        "langchain-community",
         "google-cloud-storage",
         "snowflake-connector-python",
         "stripe",
