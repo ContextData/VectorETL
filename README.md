@@ -47,13 +47,13 @@ This section provides instructions on how to use the ETL framework for Vector Da
 To run the ETL framework, use the following command:
 
 ```bash
-vector_etl -c /path/to/your/config.yaml
+vector-etl -c /path/to/your/config.yaml
 ```
 
 or if you're using a JSON configuration:
 
 ```bash
-vector_etl -c /path/to/your/config.json
+vector-etl -c /path/to/your/config.json
 ```
 
 ### Common Usage Examples
@@ -405,17 +405,17 @@ If you're thinking about adding a new feature:
 
 1. Open an issue to discuss the feature before starting development.
 2. For new data sources:
-   - Add a new file in the `source_classes` directory.
+   - Add a new file in the `source_mods` directory.
    - Implement the necessary methods as defined in the base class.
-   - Update the `get_source_class` function in `source_classes/__init__.py`.
+   - Update the `get_source_class` function in `source_mods/__init__.py`.
 3. For new embedding models:
-   - Add a new file in the `embedding_classes` directory.
+   - Add a new file in the `embedding_mods` directory.
    - Implement the necessary methods as defined in the base class.
-   - Update the `get_embedding_model` function in `embedding_classes/__init__.py`.
+   - Update the `get_embedding_model` function in `embedding_mods/__init__.py`.
 4. For new vector databases:
-   - Add a new file in the `target_classes` directory.
+   - Add a new file in the `target_mods` directory.
    - Implement the necessary methods as defined in the base class.
-   - Update the `get_target_database` function in `target_classes/__init__.py`.
+   - Update the `get_target_database` function in `target_mods/__init__.py`.
 
 ### Testing
 
