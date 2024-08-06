@@ -1,4 +1,4 @@
-__version__ = "0.1.6"
+__version__ = "0.1.6.1"
 
 from .orchestrator import run_etl_process
 
