@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 class HuggingFaceEmbedding(BaseEmbedding):
     def __init__(self, config):
         self.config = config
-        self.api_url = "https://api-inference.huggingface.co/models/" + config['model_name']
+        self.api_url = "https://api-inference.huggingface.co/pipeline/feature-extraction/" + config['model_name']
         self.headers = {"Authorization": f"Bearer {config['api_key']}"}
 
     def embed(self, df, embed_column='__concat_final'):
