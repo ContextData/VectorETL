@@ -2,6 +2,7 @@
         <a href="https://contextdata.ai"><img src="https://contextdata.nyc3.digitaloceanspaces.com/rs/images/ContextDataDark.png" width="350"></a>
    <p></p>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" /></a>
+  <a href="https://pypi.org/project/vector-etl/">![https://github.com/Naereen/badges/](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)</a>
 </div>
 
 <h2 align="center">
@@ -18,6 +19,7 @@ This pipeline aims to simplify the creation and management of vector search syst
 - Configurable chunking and overlapping for text data
 - Easy integration of new data sources, embedding models, and vector databases
 
+![VectorETL End-to-End Flow](./docs/assets/vector-etl-flow.png "VectorETL End-to-End Flow")
 
 ## Table of Content
 1. [Installation](#1-installation)
@@ -28,6 +30,7 @@ This pipeline aims to simplify the creation and management of vector search syst
    - Embedding Configuration
    - Target Configuration
 5. [Contributing](#5-contributing)
+6. [Examples](https://github.com/ContextData/VectorETL/tree/main/examples)
 
 
 ## 1. Installation
