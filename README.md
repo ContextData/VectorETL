@@ -20,7 +20,7 @@ This pipeline aims to simplify the creation and management of vector search syst
 - Easy integration of new data sources, embedding models, and vector databases
 
 
-### [Documentation](https://vectoretl.contextdata.dev/index.html)
+<a href="https://vectoretl.contextdata.dev/index.html" target="_blank"><h4>Documentation</h4></a>
 
 
 ![VectorETL End-to-End Flow](./docs/assets/vector-etl-flow.png "VectorETL End-to-End Flow")
