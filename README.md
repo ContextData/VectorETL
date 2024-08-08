@@ -19,9 +19,8 @@ This pipeline aims to simplify the creation and management of vector search syst
 - Configurable chunking and overlapping for text data
 - Easy integration of new data sources, embedding models, and vector databases
 
-<h4>
-[Documentation](https://vectoretl.contextdata.dev/index.html)
-</h4>
+
+### [Documentation](https://vectoretl.contextdata.dev/index.html)
 
 
 ![VectorETL End-to-End Flow](./docs/assets/vector-etl-flow.png "VectorETL End-to-End Flow")
