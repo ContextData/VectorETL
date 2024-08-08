@@ -8,6 +8,7 @@ from .stripe_loader import StripeSource
 from .zendesk_loader import ZendeskSource
 from .google_drive import GoogleDriveSource
 from .google_cloud_storage import GoogleCloudStorageSource
+from .apache_cassandra_astra_loader import ApacheCassandraAstraSource
 from .local_file import LocalFileSource
 
 def get_source_class(config):
@@ -30,5 +31,7 @@ def get_source_class(config):
         return GoogleDriveSource(config)
     elif source_type == 'Google Cloud Storage':
         return GoogleCloudStorageSource(config)
+    elif source_type == 'Apache Cassandra':
+        return ApacheCassandraAstraSource(config)
     else:
         raise ValueError(f"Unsupported source type: {source_type}")
