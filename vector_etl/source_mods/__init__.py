@@ -10,6 +10,8 @@ from .google_drive import GoogleDriveSource
 from .google_cloud_storage import GoogleCloudStorageSource
 from .apache_cassandra_astra_loader import ApacheCassandraAstraSource
 from .local_file import LocalFileSource
+from .airtable_loader import AirTableSource
+from .google_bigquery import GoogleBigQuerySource
 
 def get_source_class(config):
     source_type = config['source_data_type']
@@ -33,5 +35,9 @@ def get_source_class(config):
         return GoogleCloudStorageSource(config)
     elif source_type == 'Apache Cassandra':
         return ApacheCassandraAstraSource(config)
+    elif source_type == 'AirTable':
+        return AirTableSource(config)
+    elif source_type == 'Google BigQuery':
+        return GoogleBigQuerySource(config)
     else:
         raise ValueError(f"Unsupported source type: {source_type}")
