@@ -8,6 +8,7 @@ from .tembo import TemboTarget
 from .mongodb import MongoDBTarget
 from .neo4j import Neo4jTarget
 
+
 def get_target_database(config):
     target_type = config['target_database']
     if target_type == 'Pinecone':

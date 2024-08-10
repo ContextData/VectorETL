@@ -10,14 +10,14 @@ logger = logging.getLogger(__name__)
 class GoogleBigQuerySource(BaseSource):
     def __init__(self,config):
          self.config = config
-         self.google_application_credentials = config['GOOGLE_APPLICATION_CREDENTIALS']
          self.client = None
          self.connect()
          
             
     def connect(self):
-         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = self.google_application_credentials
-         self.client = bigquery.Client()
+        if self.config["db_type"] == 'google_bigquery':
+            os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = self.config['GOOGLE_APPLICATION_CREDENTIALS']
+            self.client = bigquery.Client()
      
     def fetch_data(self):
         if self.client:

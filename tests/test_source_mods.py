@@ -5,6 +5,9 @@ from io import BytesIO
 from vector_etl.source_mods.s3_loader import S3Source
 from vector_etl.source_mods.database_loader import DatabaseSource
 from vector_etl.source_mods.local_file import LocalFileSource
+from vector_etl.source_mods.google_bigquery import GoogleBigQuerySource
+from vector_etl.source_mods.airtable_loader import AirTableSource
+from vector_etl.source_mods.apache_cassandra_astra_loader import ApacheCassandraAstraSource
 
 @pytest.fixture
 def s3_config():
@@ -16,7 +19,41 @@ def s3_config():
         'chunk_size': 1000,
         'chunk_overlap': 200
     }
+    
+@pytest.fixture
+def google_bigquery_config():
+    return {
+    "source_data_type": "Google BigQuery",
+    "google_application_credentials": "",
+     "query": "SELECT * FROM chipotle_stores LIMIT 10"
+        
+    }
 
+
+@pytest.fixture
+def airtable_config():
+    return {
+        "url":"airttable.com/sales",
+        "baseId":"sales",
+        "auth_token":"673989fhuhefiw0903",
+        "tableIdOrName":"survey" 
+    }
+    
+    
+ 
+ 
+@pytest.fixture
+def apache_cassandar_astra_config():
+    return {
+    "source_data_type": "Apache Cassandra",
+    "db_type": "cassandra_astra",
+    "clientId": "",
+    "secret": "",
+    "keyspace": "sales",
+    "secure_connect_bundle": "secure-connect-contextdata.zip",
+    "query": "SELECT * FROM chipotle_stores LIMIT 10",
+    }
+    
 @pytest.fixture
 def db_config():
     return {
@@ -99,4 +136,80 @@ def test_local_file_source_read_file(local_file_config):
         source = LocalFileSource(local_file_config)
         file_content = source.read_file('/path/to/test_file.csv')
         assert isinstance(file_content, BytesIO)
+        
+  
+def test_google_bigquery_connect(google_bigquery_config):
+    with patch('bigquery.connect') as  mock_connect:
+        source = GoogleBigQuerySource(google_bigquery_config)
+        source.connect()
+        mock_connect.assert_called_once_with(
+            source_data_type="Google BigQuery",
+    google_application_credentials="",
+     query="SELECT * FROM chipotle_stores LIMIT 10"
+        )
+        
+
+def test_google_bigquery_fetch_data(google_bigquery_config):
+      with patch('bigquery.connect') as  mock_connect:
+          mock_connect.result.to_dataframe.return_value = pd.DataFrame()
+          source =  GoogleBigQuerySource(db_config)
+          df = source.fetch_data()
+          assert isinstance(df, pd.DataFrame)
+
+
+
+
+def test_apache_cassandra_astra_connect(apache_cassandar_astra_config):
+    with patch('cassandra.cluster') as  mock_connect:
+        source =  ApacheCassandraAstraSource(apache_cassandar_astra_config)
+        source.connect()
+        mock_connect.assert_called_once_with(
+        source_data_type="Apache Cassandra",
+        db_type="cassandra_astra",
+        clientId= "",
+        secret= "",
+        keyspace="sales",
+        secure_connect_bundle="secure-connect-contextdata.zip",
+        query ="SELECT * FROM chipotle_stores LIMIT 10",
+        )
+        
+
+def test_apache_cassandra_astra_fetch_data(apache_cassandar_astra_config):
+      with patch('cassandra.cluster') as  mock_connect:
+          mock_connect.session.execute.return_value = [{"id":"","name":""}]
+          source =  ApacheCassandraAstraSource(db_config)
+          df = source.fetch_data()
+          assert isinstance(df, pd.DataFrame)
+          
+          
+
+
+def test_airtable_connect(airtable_config):
+    
+    with patch('requests.get') as  mock_connect:
+        source =  AirTableSource(airtable_config)
+        source.connect()
+        mock_connect.assert_called_once_with(
+        url="Apache Cassandra",
+        baseId="cassandra_astra",
+        tableIdOrName= "",
+        auth_token="secure-connect-contextdata.zip",
+       
+        )
+        
+
+def test_airtable_fetch_data(airtable_config):
+      with patch('requests.get') as  mock_connect:
+          mock_connect.return_value = [ {
+            "Address": "333 Post St",
+            "Name": "Union Square",
+            "Visited": True
+        }
+        ]
+          
+          source =  AirTableSource(db_config)
+          df = source.fetch_data()
+
+          assert isinstance(df, pd.DataFrame)
+
 
