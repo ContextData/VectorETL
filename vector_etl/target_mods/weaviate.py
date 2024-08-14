@@ -55,7 +55,7 @@ class WeaviateTarget(BaseTarget):
         with self.client.batch as batch:
             for _, row in df.iterrows():
                 if len(columns) > 0:
-                    columns.append("__concat_final")
+                    # columns.append("__concat_final")
                     metadata = {col: str(row[col]) for col in columns}
 
                     if domain:
@@ -71,7 +71,7 @@ class WeaviateTarget(BaseTarget):
                     metadata = {
                         col: str(row[col]) if isinstance(row[col], list) else str(row[col])
                         for col in df.columns if
-                        col not in ["df_uuid", "embeddings"] and pd.notna(row[col])
+                        col not in ["df_uuid", "embeddings", "__concat_final"] and pd.notna(row[col])
                     }
                     if domain:
                         metadata["domain"] = domain
