@@ -67,6 +67,7 @@ setup(
         "neo4j",
         "python-magic",
         "pytest",
+        "nltk",
     ],
     entry_points={
         "console_scripts": [
