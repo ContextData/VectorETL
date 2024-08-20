@@ -3,6 +3,7 @@
    <p></p>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" /></a>
   <a href="https://pypi.org/project/vector-etl/"><img src="https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github" /></a>
+  [![Downloads](https://static.pepy.tech/badge/vector-etl/week)](https://pepy.tech/project/vector-etl)
 </div>
 
 <h2 align="center">
