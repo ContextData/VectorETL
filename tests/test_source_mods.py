@@ -7,7 +7,6 @@ from vector_etl.source_mods.database_loader import DatabaseSource
 from vector_etl.source_mods.local_file import LocalFileSource
 from vector_etl.source_mods.google_bigquery import GoogleBigQuerySource
 from vector_etl.source_mods.airtable_loader import AirTableSource
-from vector_etl.source_mods.apache_cassandra_astra_loader import ApacheCassandraAstraSource
 
 @pytest.fixture
 def s3_config():
@@ -39,20 +38,6 @@ def airtable_config():
         "tableIdOrName":"survey" 
     }
     
-    
- 
- 
-@pytest.fixture
-def apache_cassandar_astra_config():
-    return {
-    "source_data_type": "Apache Cassandra",
-    "db_type": "cassandra_astra",
-    "clientId": "",
-    "secret": "",
-    "keyspace": "sales",
-    "secure_connect_bundle": "secure-connect-contextdata.zip",
-    "query": "SELECT * FROM chipotle_stores LIMIT 10",
-    }
     
 @pytest.fixture
 def db_config():
@@ -159,27 +144,6 @@ def test_google_bigquery_fetch_data(google_bigquery_config):
 
 
 
-def test_apache_cassandra_astra_connect(apache_cassandar_astra_config):
-    with patch('cassandra.cluster') as  mock_connect:
-        source =  ApacheCassandraAstraSource(apache_cassandar_astra_config)
-        source.connect()
-        mock_connect.assert_called_once_with(
-        source_data_type="Apache Cassandra",
-        db_type="cassandra_astra",
-        clientId= "",
-        secret= "",
-        keyspace="sales",
-        secure_connect_bundle="secure-connect-contextdata.zip",
-        query ="SELECT * FROM chipotle_stores LIMIT 10",
-        )
-        
-
-def test_apache_cassandra_astra_fetch_data(apache_cassandar_astra_config):
-      with patch('cassandra.cluster') as  mock_connect:
-          mock_connect.session.execute.return_value = [{"id":"","name":""}]
-          source =  ApacheCassandraAstraSource(db_config)
-          df = source.fetch_data()
-          assert isinstance(df, pd.DataFrame)
           
           
 

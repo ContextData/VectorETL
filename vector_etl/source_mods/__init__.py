@@ -8,7 +8,6 @@ from .stripe_loader import StripeSource
 from .zendesk_loader import ZendeskSource
 from .google_drive import GoogleDriveSource
 from .google_cloud_storage import GoogleCloudStorageSource
-from .apache_cassandra_astra_loader import ApacheCassandraAstraSource
 from .local_file import LocalFileSource
 from .airtable_loader import AirTableSource
 from .google_bigquery import GoogleBigQuerySource
@@ -33,8 +32,6 @@ def get_source_class(config):
         return GoogleDriveSource(config)
     elif source_type == 'Google Cloud Storage':
         return GoogleCloudStorageSource(config)
-    elif source_type == 'Apache Cassandra':
-        return ApacheCassandraAstraSource(config)
     elif source_type == 'AirTable':
         return AirTableSource(config)
     elif source_type == 'Google BigQuery':
