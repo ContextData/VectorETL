@@ -1,5 +1,5 @@
 import requests
-from base import BaseSource
+from .base import BaseSource
 from pprint import pprint
 import pandas as pd
 import logging
