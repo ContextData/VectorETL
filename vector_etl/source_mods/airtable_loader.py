@@ -1,5 +1,9 @@
 import requests
 from .base import BaseSource
+<<<<<<< HEAD
+=======
+from pprint import pprint
+>>>>>>> f842a37 (updated base module  import)
 import pandas as pd
 import logging
 
