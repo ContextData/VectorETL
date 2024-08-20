@@ -40,7 +40,7 @@ This pipeline aims to simplify the creation and management of vector search syst
 
 
 ## 1. Installation
-`pip install vector-etl`
+`pip install --upgrade vector-etl`
 
 or
 
