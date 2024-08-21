@@ -3,6 +3,7 @@
    <p></p>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" /></a>
   <a href="https://pypi.org/project/vector-etl/"><img src="https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github" /></a>
+  [![Downloads](https://static.pepy.tech/badge/vector-etl/week)](https://pepy.tech/project/vector-etl)
 </div>
 
 <h2 align="center">
@@ -39,7 +40,7 @@ This pipeline aims to simplify the creation and management of vector search syst
 
 
 ## 1. Installation
-`pip install vector-etl`
+`pip install --upgrade vector-etl`
 
 or
 

@@ -57,6 +57,7 @@ dependencies = [
     "neo4j",
     "python-magic",
     "pytest",
+    "nltk",
 ]
 dynamic = ["version"]
 

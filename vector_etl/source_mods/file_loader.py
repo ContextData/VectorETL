@@ -3,6 +3,11 @@ import pandas as pd
 from abc import abstractmethod
 import os
 from unstructured.partition.auto import partition
+from unstructured_client import UnstructuredClient
+from unstructured_client.models import shared
+from unstructured_client.models.errors import SDKError
+import nltk
+nltk.download('averaged_perceptron_tagger')
 from .base import BaseSource
 
 logging.basicConfig(level=logging.INFO)
@@ -76,11 +81,73 @@ class FileBaseSource(BaseSource):
         return pd.DataFrame(data)
 
 
+    def parse_text_files_unstructured(self, file_path, file_extension):
+        logger.info("Using Unstructured API...")
+
+        client = UnstructuredClient(
+            api_key_auth=self.config.get('unstructured_api_key', ''), #"7HL4jXczMofJYdEWguMSthZESHYsOV",
+            server_url=self.config.get('unstructured_url', '') #"https://contextdata-s9tqqr9f.api.unstructuredapp.io",
+        )
+
+        file = open(file_path, "rb")
+        req = shared.PartitionParameters(
+            files=shared.Files(
+                content=file.read(),
+                file_name=file_path,
+            ),
+            strategy="auto",
+            coordinates=True,
+        )
+
+        try:
+            res = client.general.partition(req)
+            elements = res.elements
+            ids = []
+            document = []
+            type = []
+            file_type = []
+            file_name = []
+            parent_id = []
+
+            coordinates = [] if file_extension == "pdf" else None
+            page_number = [] if file_extension == "pdf" else None
+
+            for el in elements:
+                ids.append(el['element_id'])
+                document.append(el['text'])
+                type.append(el['type'])
+                file_type.append(el['metadata']["filetype"])
+                file_name.append(el['metadata']["filename"])
+                parent_id.append(el['metadata']["parent_id"] if 'parent_id' in el['metadata'] else None)
+
+                if file_extension == "pdf":  # and el.metadata.to_dict()["filetype"].lower() == 'pdf':
+                    coordinates.append(el['metadata']["coordinates"])
+                    page_number.append(el['metadata']["page_number"])
+
+            data = {
+                'element_id': ids,
+                'parent_id': parent_id,
+                'text': document,
+                'type': type,
+                'file_type': file_type,
+                'file_name': file_name
+            }
+
+            if file_extension == "pdf":
+                data['page_number'] = page_number
+                data['coordinates'] = coordinates
+            return pd.DataFrame(data)
+        except SDKError as e:
+            logger.error(f"Unstructured process failed: {str(e)}")
+            raise
+
+
     def process_file(self, file_path):
         file_type = file_path.split('.')[-1].lower()
         content = self.download_file(file_path)
 
         local_file_path = f"tempfile_downloads/{file_path.split('/')[-1]}"
+
         if file_type == 'csv':
             df = pd.read_csv(local_file_path)
         elif file_type in ['xlsx', 'xls']:
@@ -88,7 +155,10 @@ class FileBaseSource(BaseSource):
         elif file_type == 'json':
             df = pd.read_json(local_file_path)
         elif file_type in ['txt', 'pdf', 'doc', 'docx']:
-            df = self.parse_text_files(local_file_path, file_type)
+            if self.config.get('use_unstructured'):
+                df = self.parse_text_files_unstructured(local_file_path, file_type)
+            else:
+                df = self.parse_text_files(local_file_path, file_type)
         else:
             raise ValueError(f"Unsupported file type: {file_type}")
 

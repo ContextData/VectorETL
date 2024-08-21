@@ -39,3 +39,4 @@ pymongo
 neo4j
 python-magic
 pytest
+nltk
