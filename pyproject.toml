@@ -58,6 +58,7 @@ dependencies = [
     "python-magic",
     "pytest",
     "nltk",
+    "pymilvus",
 ]
 dynamic = ["version"]
 
