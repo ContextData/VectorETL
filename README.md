@@ -32,6 +32,7 @@ This pipeline aims to simplify the creation and management of vector search syst
 3. [Project Overview](#3-project-overview)
 4. [Configuration](#4-configuration)
    - Source Configuration
+   - Using [Unstructured](https://unstructured.io/api-key-hosted) to process source files
    - Embedding Configuration
    - Target Configuration
 5. [Contributing](#5-contributing)
@@ -298,6 +299,39 @@ source:
   chunk_size: 1000
   chunk_overlap: 0
 ```
+
+#### Using Unstructured to process source files
+
+Starting from version 0.1.6.3, you can now add Unstructured as file processing API. Users can now utilize the [Unstructured's Serverless API](https://unstructured.io/api-key-hosted) to efficiently extract data from a multitude of file based sources.
+
+In order to use Unstructured, you will need three additional parameters
+
+1. `use_unstructured`: (True/False) indicator telling the framework to use the Unstructured API
+2. `unstructured_api_key`: Enter your Unstructured API Key
+3. `unstructured_url`: Enter your API Url from your Unstructured dashboard
+
+```yaml
+# Example using Local file
+source:
+  source_data_type: "Local File"
+  file_path: "/path/to/file.docx"
+  file_type: "docx"
+  use_unstructured: True
+  unstructured_api_key: 'my-unstructured-key'
+  unstructured_url: 'https://my-domain.api.unstructuredapp.io'
+
+# Example using Amazon S3
+source:
+  source_data_type: "Amazon S3"
+  bucket_name: "myBucket"
+  prefix: "Dir/Subdir/"
+  file_type: "csv"
+  aws_access_key_id: "your-access-key"
+  aws_secret_access_key: "your-secret-access-key"
+  use_unstructured: True
+  unstructured_api_key: 'my-unstructured-key'
+  unstructured_url: 'https://my-domain.api.unstructuredapp.io'
+```  
 
 #### Embedding Configuration
 
