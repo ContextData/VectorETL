@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class AirTableSource(BaseSource):
     def __init__(self,config):
         self.config = config
-        self.url = f"{self.config['url']}{self.config['baseId']}/{self.config['tableIdOrName']}"
+        self.url = f"https://api.airtable.com/v0/{self.config['baseId']}/{self.config['tableIdOrName']}"
         self.auth_token = config['auth_token']
           
     def connect(self):
