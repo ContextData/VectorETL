@@ -2,7 +2,7 @@ source:
   source_data_type: "Amazon S3"
   bucket_name: "myBucket"
   prefix: "Dir/Subdir/"
-  file_type: "csv"
+  file_type: "pdf"
   aws_access_key_id: "your-access-key"
   aws_secret_access_key: "your-secret-access-key"
   use_unstructured: True
