@@ -303,6 +303,8 @@ source:
 
 Starting from version 0.1.6.3, you can now add Unstructured as file processing API. Users can now utilize the [Unstructured's Serverless API](https://unstructured.io/api-key-hosted) to efficiently extract data from a multitude of file based sources.
 
+**This is limited to [PDF, DOCX, DOC, TXT] files**
+
 In order to use Unstructured, you will need three additional parameters
 
 1. `use_unstructured`: (True/False) indicator telling the framework to use the Unstructured API
