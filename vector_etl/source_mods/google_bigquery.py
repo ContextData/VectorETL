@@ -1,6 +1,6 @@
 import os 
 from google.cloud import bigquery
-from .base import BaseSource
+from base import BaseSource
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -35,5 +35,14 @@ class GoogleBigQuerySource(BaseSource):
                 
                 
  
-                
+config = {"query":"SELECT * FROM bigquery-public-data.america_health_rankings.ahr LIMIT 100",
+          "GOOGLE_APPLICATION_CREDENTIALS":"contextData_bigquery_cred.json",
+          "db_type":'google_bigquery'
+          }
+
+
+data = GoogleBigQuerySource(config) 
+print(type(data.fetch_data()))
+print(data.fetch_data())    
+           
 

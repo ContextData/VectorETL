@@ -11,6 +11,7 @@ from .google_cloud_storage import GoogleCloudStorageSource
 from .local_file import LocalFileSource
 from .airtable_loader import AirTableSource
 from .google_bigquery import GoogleBigQuerySource
+from .hubspot_loader import HubSpotSource
 
 def get_source_class(config):
     source_type = config['source_data_type']
@@ -36,5 +37,7 @@ def get_source_class(config):
         return AirTableSource(config)
     elif source_type == 'Google BigQuery':
         return GoogleBigQuerySource(config)
+    elif source_type == 'HubSpot':
+        return HubSpotSource(config)
     else:
         raise ValueError(f"Unsupported source type: {source_type}")
