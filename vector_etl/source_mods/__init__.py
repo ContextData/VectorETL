@@ -12,7 +12,7 @@ from .local_file import LocalFileSource
 from .airtable_loader import AirTableSource
 from .google_bigquery import GoogleBigQuerySource
 from .hubspot_loader import HubSpotSource
-
+from .zoho_crm_loader import ZohoCrmSource
 def get_source_class(config):
     source_type = config['source_data_type']
     if source_type == 'Amazon S3':
@@ -39,5 +39,7 @@ def get_source_class(config):
         return GoogleBigQuerySource(config)
     elif source_type == 'HubSpot':
         return HubSpotSource(config)
+    elif source_type == 'Zoho Crm':
+        return ZohoCrmSource(config)
     else:
         raise ValueError(f"Unsupported source type: {source_type}")
