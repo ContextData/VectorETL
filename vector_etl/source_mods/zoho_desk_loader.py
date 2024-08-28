@@ -103,7 +103,7 @@ class ZohoDeskSource(BaseSource):
         try:  
             headers = {"Authorization":f"Zoho-oauthtoken {self.token}"}
             
-            response = requests.get(url=self.url,headers=headers)
+            response = requests.get(url=self.url,headers=headers)['data']
             
             flattened_data = [self.flatten_dict(item) for item in response]
             
