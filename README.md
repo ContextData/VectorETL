@@ -1,8 +1,16 @@
 <div align="center">
         <a href="https://contextdata.ai"><img src="https://contextdata.nyc3.digitaloceanspaces.com/rs/images/ContextDataDark.png" width="350"></a>
-   <p></p>
+</div>
+
+<br/>
+
+<div align="center">
+
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" /></a>
   <a href="https://pypi.org/project/vector-etl/"><img src="https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github" /></a>
+  [![Downloads](https://static.pepy.tech/badge/vector-etl/month)](https://pepy.tech/project/vector-etl)
+  [![Downloads](https://static.pepy.tech/badge/vector-etl/week)](https://pepy.tech/project/vector-etl)
+
 </div>
 
 <h2 align="center">
