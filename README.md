@@ -487,3 +487,6 @@ If you're thinking about adding a new feature:
 - We use GitHub pull requests for this purpose.
 - Reviewers may request changes before a pull request can be merged.
 
+### Community (Discord)
+
+We encourage all users to join our [Discord server](https://discord.gg/8agCy6bM) to collaborate with the Context Data development team and other contributors in order to suggest upgrades, new integrations and issues.
