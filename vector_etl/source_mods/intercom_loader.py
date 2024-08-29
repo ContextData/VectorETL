@@ -1,4 +1,4 @@
-from base import BaseSource
+from .base import BaseSource
 import requests
 from pprint import pprint
 import logging

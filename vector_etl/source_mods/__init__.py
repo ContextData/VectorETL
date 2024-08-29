@@ -14,7 +14,8 @@ from .google_bigquery import GoogleBigQuerySource
 from .hubspot_loader import HubSpotSource
 from .zoho_crm_loader import ZohoCrmSource
 from .zoho_desk_loader import ZohoDeskSource
-from . intercom_loader import InterComSource
+from .intercom_loader import InterComSource
+from .paystack_loader import PayStackSource
 def get_source_class(config):
     source_type = config['source_data_type']
     if source_type == 'Amazon S3':
@@ -47,5 +48,7 @@ def get_source_class(config):
         return ZohoDeskSource(config)
     elif source_type == "InterCom":
         return InterComSource(config)
+    elif  source_type == 'PayStackS':
+        return PayStackSource(config)
     else:
         raise ValueError(f"Unsupported source type: {source_type}")
