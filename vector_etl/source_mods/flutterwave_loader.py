@@ -7,11 +7,11 @@ import pandas as pd
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-class InterComSource(BaseSource):
+class FlutterWaveSource(BaseSource):
     def __init__(self,config):
         self.config = config
         self.url = None
-        self.token = self.config['token']
+        self.secret_key = self.config['secret_key']
         
         
     def flatten_dict(self, d, parent_key='', sep='_'):
@@ -32,7 +32,7 @@ class InterComSource(BaseSource):
         
         
     def connect(self,url):
-        headers = {"Authorization": f"Bearer {self.token}",
+        headers = {"Authorization": f"Bearer {self.secret_key}",
            "Content-type":"application/json",
            "Intercom-Version":"2.11"}
         response = requests.get(url=url,headers=headers)
@@ -42,76 +42,53 @@ class InterComSource(BaseSource):
         
     def fetch_data(self):
         
-        if self.config['records'] == 'intercom.articles':
-            logger.info(" articles \n")
-            self.url = f"https://api.intercom.io/articles"
+        if self.config['records'] == 'flutterwave.transfers':
+            logger.info(" Transfers \n")
+            self.url = f"https://api.flutterwave.com/v3/transfers"
             
             response = self.connect(self.url).json()['data']
         
-           
-        elif self.config['records'] == 'intercom.companies.scroll':
-            logger.info(" Companies \n")
-            self.url = f"https://api.intercom.io/companies/scroll"
-            
-            response = self.connect(self.url).json()['data']
-            
-        
-        elif self.config['records'] == 'intercom.contacts':
-            logger.info(" Contacts \n")
-            self.url = f"https://api.intercom.io/contacts"
-            
-            response = self.connect(self.url).json()['data']
-            
-            
-            
-        elif self.config['records'] == 'intercom.conversations':
-            logger.info(" conversations \n")
-            self.url = f"https://api.intercom.io/conversations"
-            
-            response = self.connect(self.url).json()['conversations']
-            
-            
-            
-        elif self.config['records'] == 'intercom.collections':
-            logger.info(" collection \n")
-            self.url = f"https://api.intercom.io/help_center/collections"
-            
-            response = self.connect(self.url).json()['data']
-            
-            
-        elif self.config['records'] == 'intercom.news_items':
-            logger.info(" news items \n")
-            self.url = f"https://api.intercom.io/news/news_items"
+        elif self.config['records'] == 'flutterwave.transactions':
+            logger.info(" transactions \n")
+            self.url = f"https://api.flutterwave.com/v3/transactions"
             
             response = self.connect(self.url).json()['data']
             
         
-        elif self.config['records'] == 'intercom.segments':
-            logger.info(" segments \n")
-            self.url = f"https://api.intercom.io/segments"
+        elif self.config['records'] == 'flutterwave.beneficiaries':
+            logger.info(" Transfers \n")
+            self.url = f"https://api.flutterwave.com/v3/beneficiaries"
             
-            response = self.connect(self.url).json()['segments']
+            response = self.connect(self.url).json()['data']
             
         
-         
-        elif self.config['records'] == 'intercom.subscription_types':
-            logger.info(" subscription_types \n")
-            self.url = f"https://api.intercom.io/subscription_types"
+        elif self.config['records'] == 'flutterwave.subaccounts':
+            logger.info(" subaccounts \n")
+            self.url = f"https://api.flutterwave.com/v3/subaccounts"
             
             response = self.connect(self.url).json()['data']
             
-            
-        elif self.config['records'] == 'intercom.teams':
-            logger.info(" Teams \n")
-            self.url = f"https://api.intercom.io/teams"
-            
-            response = self.connect(self.url).json()['teams']
-            
-        elif self.config['records'] == 'intercom.ticket_types':
-            logger.info(" ticket_types \n")
-            self.url = f"https://api.intercom.io/ticket_types"
+        elif self.config['records'] == 'flutterwave.payout-subaccounts':
+            logger.info(" payout-subaccounts \n")
+            self.url = f"https://api.flutterwave.com/v3/payout-subaccounts"
             
             response = self.connect(self.url).json()['data']
+            
+        elif self.config['records'] == 'flutterwave.subscriptions':
+            logger.info(" subscriptions \n")
+            self.url = f"https://api.flutterwave.com/v3/subscriptions"
+            
+            response = self.connect(self.url).json()['data']
+            
+        
+        elif self.config['records'] == 'flutterwave.payment-plans':
+            logger.info(" payment-plans \n")
+            self.url = f"https://api.flutterwave.com/v3/payment-plans"
+            
+            response = self.connect(self.url).json()['data']
+        
+        
+      
             
         
         try:    
@@ -126,6 +103,11 @@ class InterComSource(BaseSource):
         except requests.exceptions.HTTPError as http_err:
             logger.error(f"HTTP error occurred: {http_err}")   
             
+            
+            
+
+
+
 
 
 

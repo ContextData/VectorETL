@@ -16,6 +16,7 @@ from .zoho_crm_loader import ZohoCrmSource
 from .zoho_desk_loader import ZohoDeskSource
 from .intercom_loader import InterComSource
 from .paystack_loader import PayStackSource
+from .flutterwave_loader import FlutterWaveSource
 def get_source_class(config):
     source_type = config['source_data_type']
     if source_type == 'Amazon S3':
@@ -50,5 +51,7 @@ def get_source_class(config):
         return InterComSource(config)
     elif  source_type == 'PayStackS':
         return PayStackSource(config)
+    elif source_type == "FlutterWave":
+        return FlutterWaveSource(config)
     else:
         raise ValueError(f"Unsupported source type: {source_type}")

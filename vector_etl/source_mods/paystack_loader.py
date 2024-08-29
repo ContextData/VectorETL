@@ -1,6 +1,4 @@
 from .base import BaseSource
-import requests
-from pprint import pprint
 import logging
 import pandas as pd
 
@@ -13,7 +11,7 @@ logger = logging.getLogger(__name__)
 class PayStackSource(BaseSource):
     def __init__(self,config):
         self.config = config
-        self.paystack_secret_key = self.config['token']
+        self.paystack_secret_key = self.config['paystack_secret_key']
         
         
     def flatten_dict(self, d, parent_key='', sep='_'):
@@ -93,14 +91,13 @@ class PayStackSource(BaseSource):
           
         try:    
             flattened_data = [self.flatten_dict(item) for item in response]
-            pprint(flattened_data,indent=4)
               
             df  = pd.DataFrame(flattened_data )
             
             logger.info(f" data \n {df}")
             
             return df
-        except requests.exceptions.HTTPError as http_err:
+        except Exception as http_err:
             logger.error(f"HTTP error occurred: {http_err}")  
             
 
