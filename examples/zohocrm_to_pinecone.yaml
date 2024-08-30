@@ -1,0 +1,25 @@
+source:
+  source_data_type: "ZohoCrm"
+  grant_type: ""
+  client_id: ""
+  client_secret: ""
+  code: ""
+  per_page: ""
+  records: ""
+  accounts_url: ""
+  
+embedding:
+  embedding_model: "OpenAI"
+  api_key: ""
+  model_name: "text-embedding-ada-002"
+
+target:
+  target_database: "Pinecone"
+  pinecone_api_key: ""
+  index_name: ""
+  dimension: 1536 #[Optional] Only required if creating a new index
+  metric: "cosine" #[Optional] Only required if creating a new index
+  cloud: "aws" #[Optional] Only required if creating a new index
+  region: "us-east-1" #[Optional] Only required if creating a new index
+
+

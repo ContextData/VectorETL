@@ -7,6 +7,12 @@ from vector_etl.source_mods.database_loader import DatabaseSource
 from vector_etl.source_mods.local_file import LocalFileSource
 from vector_etl.source_mods.google_bigquery import GoogleBigQuerySource
 from vector_etl.source_mods.airtable_loader import AirTableSource
+from vector_etl.source_mods.hubspot_loader import HubSpotSource
+from vector_etl.source_mods.intercom_loader import InterComSource
+from vector_etl.source_mods.paystack_loader import PayStackSource
+from vector_etl.source_mods.zoho_crm_loader import ZohoCrmSource
+from vector_etl.source_mods.zoho_desk_loader import ZohoDeskSource
+from vector_etl.source_mods.flutterwave_loader import FlutterWaveSource
 
 @pytest.fixture
 def s3_config():
@@ -37,6 +43,66 @@ def airtable_config():
         "auth_token":"673989fhuhefiw0903",
         "tableIdOrName":"survey" 
     }
+    
+    
+@pytest.fixture
+def zohodesk_config():
+    return{
+            "grant_type":"",
+            "client_id": "",
+            "client_secret": "",
+            "code": "",
+            "limit":"",
+            "records":"desk.team",
+            "accounts_url":""
+        }
+
+
+@pytest.fixture
+def zohocrm_config():
+    return{
+            "grant_type":"",
+            "client_id": "",
+            "client_secret": "",
+            "code": "",
+            "per_page":"10",
+            "records":"module.Call",
+            "accounts_url":""
+        }
+    
+
+@pytest.fixture
+def hubspot_config():
+    return{
+            "archive":"",
+            "limit": "",
+            "access_token": "",
+            "crm_object":"crm_object",
+        }
+    
+
+@pytest.fixture
+def paystack_config():
+    return{
+            "paystack_secret_key":"",
+            "records": "paystack.transactions",
+        }
+    
+
+
+@pytest.fixture
+def flutterwave_config():
+    return{
+            "secret_key":"",
+            "records": "flutterwave.payout-subaccounts",
+        }
+    
+@pytest.fixture
+def intercom_config():
+    return{
+            "token":"",
+            "records": "intercom.teams",
+        }
     
     
 @pytest.fixture
@@ -175,5 +241,71 @@ def test_airtable_fetch_data(airtable_config):
           df = source.fetch_data()
 
           assert isinstance(df, pd.DataFrame)
+          
+
+
+
+def test_zohodesk_fetch_data(zohodesk_config):
+      with patch('requests.get') as  mock_connect:
+          mock_connect.return_value = [ {
+            "Address": "333 Post St",
+            "Name": "Union Square",
+            "Visited": True
+        }
+        ]
+          
+          source =  ZohoDeskSource(db_config)
+          df = source.fetch_data()
+
+          assert isinstance(df, pd.DataFrame)
+          
+
+
+
+def test_zohocrm_fetch_data(zohocrm_config):
+      with patch('requests.get') as  mock_connect:
+          mock_connect.return_value = [ {  }
+        ]
+          
+          source =  ZohoCrmSource(db_config)
+          df = source.fetch_data()
+
+          assert isinstance(df, pd.DataFrame)
+
+
+
+
+def test_paystack_fetch_data(paystack_config):
+      with patch('Paystack') as  mock_connect:
+          mock_connect.return_value = [{}]
+          
+          source =  PayStackSource(db_config)
+          df = source.fetch_data()
+
+          assert isinstance(df, pd.DataFrame)
+          
+
+
+
+def test_intercom_fetch_data(intercom_config):
+      with patch('requests.get') as  mock_connect:
+          mock_connect.return_value = [{}]
+          
+          source =  InterComSource(db_config)
+          df = source.fetch_data()
+
+          assert isinstance(df, pd.DataFrame)
+
+
+
+def test_flutterwave_fetch_data(flutterwave_config):
+      with patch('requests.get') as  mock_connect:
+          mock_connect.return_value = [{}]
+          
+          source =  FlutterWaveSource(db_config)
+          df = source.fetch_data()
+
+          assert isinstance(df, pd.DataFrame)
+
 
 
