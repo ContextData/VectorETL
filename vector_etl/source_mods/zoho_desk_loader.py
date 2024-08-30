@@ -100,21 +100,7 @@ class ZohoDeskSource(BaseSource):
             self.url = f"https://desk.zoho.com/api/v1/contacts?limit={self.config['limit']}"
             
            
-        try:  
-            headers = {"Authorization":f"Zoho-oauthtoken {self.token}"}
-            
-            response = requests.get(url=self.url,headers=headers)['data']
-            
-            flattened_data = [self.flatten_dict(item) for item in response]
-            
-                    
-            df  = pd.DataFrame(flattened_data )
-            
-            logger.info(f" data \n {df}")
-            
-            return df
-        except requests.exceptions.HTTPError as http_err:
-            logger.error(f"HTTP error occurred: {http_err}")            
+                  
        
         
         

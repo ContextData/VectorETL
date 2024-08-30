@@ -41,8 +41,5 @@ config = {"query":"SELECT * FROM bigquery-public-data.america_health_rankings.ah
           }
 
 
-data = GoogleBigQuerySource(config) 
-print(type(data.fetch_data()))
-print(data.fetch_data())    
-           
+
 

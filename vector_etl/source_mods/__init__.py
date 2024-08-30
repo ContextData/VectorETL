@@ -43,9 +43,9 @@ def get_source_class(config):
         return GoogleBigQuerySource(config)
     elif source_type == 'HubSpot':
         return HubSpotSource(config)
-    elif source_type == 'Zoho Crm':
+    elif source_type == 'ZohoCrm':
         return ZohoCrmSource(config)
-    elif source_type == 'Zoho Desk':
+    elif source_type == 'ZohoDesk':
         return ZohoDeskSource(config)
     elif source_type == "InterCom":
         return InterComSource(config)

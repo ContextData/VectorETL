@@ -43,7 +43,7 @@ class HubSpotSource(BaseSource):
            self.endpoints = f"https://api.hubapi.com/crm/v3/objects/deals?limit={self.config['limit']}&archived={self.config['archive']}"
            logger.info(f"Deals \n")
            
-       elif  self.config['crm_object'] == "crm.products":
+       elif  self.config['crm_object'] == "crm_object":
            self.endpoints = f"https://api.hubapi.com/crm/v3/objects/products?limit={self.config['limit']}&archived={self.config['archive']}"
            logger.info(f"products \n")
            
