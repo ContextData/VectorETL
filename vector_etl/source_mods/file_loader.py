@@ -85,8 +85,8 @@ class FileBaseSource(BaseSource):
         logger.info("Using Unstructured API...")
 
         client = UnstructuredClient(
-            api_key_auth=self.config.get('unstructured_api_key', ''), #"7HL4jXczMofJYdEWguMSthZESHYsOV",
-            server_url=self.config.get('unstructured_url', '') #"https://contextdata-s9tqqr9f.api.unstructuredapp.io",
+            api_key_auth=self.config.get('unstructured_api_key', ''),
+            server_url=self.config.get('unstructured_url', '')
         )
 
         file = open(file_path, "rb")
