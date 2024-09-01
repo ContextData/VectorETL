@@ -13,6 +13,7 @@ from vector_etl.source_mods.paystack_loader import PayStackSource
 from vector_etl.source_mods.zoho_crm_loader import ZohoCrmSource
 from vector_etl.source_mods.zoho_desk_loader import ZohoDeskSource
 from vector_etl.source_mods.flutterwave_loader import FlutterWaveSource
+from vector_etl.source_mods.gmail_loader import GmailSource
 
 @pytest.fixture
 def s3_config():
@@ -43,6 +44,16 @@ def airtable_config():
         "auth_token":"673989fhuhefiw0903",
         "tableIdOrName":"survey" 
     }
+    
+
+@pytest.fixture
+def gmail_config():
+    return {
+        'credentials': 'credentials.json', ## path to gmail crendtials
+        'gmail.label': 'IMPORTANT'  # Specify the label in the config
+    }
+    
+    
     
     
 @pytest.fixture
@@ -203,15 +214,9 @@ def test_google_bigquery_connect(google_bigquery_config):
 def test_google_bigquery_fetch_data(google_bigquery_config):
       with patch('bigquery.connect') as  mock_connect:
           mock_connect.result.to_dataframe.return_value = pd.DataFrame()
-          source =  GoogleBigQuerySource(db_config)
+          source =  GoogleBigQuerySource(google_bigquery_config)
           df = source.fetch_data()
           assert isinstance(df, pd.DataFrame)
-
-
-
-
-          
-          
 
 
 def test_airtable_connect(airtable_config):
@@ -237,12 +242,24 @@ def test_airtable_fetch_data(airtable_config):
         }
         ]
           
-          source =  AirTableSource(db_config)
+          source =  AirTableSource(airtable_config)
           df = source.fetch_data()
 
           assert isinstance(df, pd.DataFrame)
           
-
+          
+def test_zohodesk_connect(zohodesk_config):
+    
+    with patch('requests.get') as  mock_connect:
+        source = ZohoDeskSource(zohodesk_config)
+        source.connect()
+        mock_connect.assert_called_once_with(
+        grant_type="",
+        client_id = "",
+        client_secret="",
+        code="",
+        accounts_url=""
+        ) 
 
 
 def test_zohodesk_fetch_data(zohodesk_config):
@@ -254,12 +271,23 @@ def test_zohodesk_fetch_data(zohodesk_config):
         }
         ]
           
-          source =  ZohoDeskSource(db_config)
+          source =  ZohoDeskSource(zohodesk_config)
           df = source.fetch_data()
 
           assert isinstance(df, pd.DataFrame)
           
-
+def test_zohocrm_connect(zohocrm_config):
+    
+    with patch('requests.get') as  mock_connect:
+        source = ZohoCrmSource(zohocrm_config)
+        source.connect()
+        mock_connect.assert_called_once_with(
+        grant_type="",
+        client_id = "",
+        client_secret="",
+        code="",
+        accounts_url=""
+        ) 
 
 
 def test_zohocrm_fetch_data(zohocrm_config):
@@ -267,42 +295,88 @@ def test_zohocrm_fetch_data(zohocrm_config):
           mock_connect.return_value = [ {  }
         ]
           
-          source =  ZohoCrmSource(db_config)
+          source =  ZohoCrmSource(zohocrm_config)
           df = source.fetch_data()
 
           assert isinstance(df, pd.DataFrame)
 
-
+def test_paystack_connect(paystack_config):
+    
+    with patch('requests.get') as  mock_connect:
+        source = PayStackSource(paystack_config)
+        source.connect()
+        mock_connect.assert_called_once_with(
+        paystack_secret_key="",
+        ) 
 
 
 def test_paystack_fetch_data(paystack_config):
       with patch('Paystack') as  mock_connect:
           mock_connect.return_value = [{}]
           
-          source =  PayStackSource(db_config)
+          source =  PayStackSource(paystack_config)
           df = source.fetch_data()
 
           assert isinstance(df, pd.DataFrame)
           
 
+def test_intercom_connect(intercom_config):
+    
+    with patch('requests.get') as  mock_connect:
+        source = InterComSource(intercom_config)
+        source.connect()
+        mock_connect.assert_called_once_with(
+        secret_key="",
+        )    
 
 
 def test_intercom_fetch_data(intercom_config):
       with patch('requests.get') as  mock_connect:
           mock_connect.return_value = [{}]
           
-          source =  InterComSource(db_config)
+          source =  InterComSource(intercom_config)
           df = source.fetch_data()
 
           assert isinstance(df, pd.DataFrame)
+          
+          
 
+def test_flutterwave_connect(flutterwave_config):
+    
+    with patch('requests.get') as  mock_connect:
+        source =  FlutterWaveSource(flutterwave_config)
+        source.connect()
+        mock_connect.assert_called_once_with(
+        secret_key="",
+        )    
 
 
 def test_flutterwave_fetch_data(flutterwave_config):
       with patch('requests.get') as  mock_connect:
           mock_connect.return_value = [{}]
           
-          source =  FlutterWaveSource(db_config)
+          source =  FlutterWaveSource(flutterwave_config)
+          df = source.fetch_data()
+
+          assert isinstance(df, pd.DataFrame)
+          
+
+
+
+def test_gmail_connect(gmail_config):
+    
+    with patch('InstalledAppFlow.from_client_secrets_file') as  mock_connect:
+        source =  GmailSource(gmail_config)
+        source.connect()
+        mock_connect.assert_called_once_with(
+        credentials="credential.json",
+        )    
+
+
+def test_gmail_fetch_data(gmail_config):
+      with patch('requests.get') as  mock_connect:
+          mock_connect.return_value = [{}]
+          source =  GmailSource(gmail_config)
           df = source.fetch_data()
 
           assert isinstance(df, pd.DataFrame)
