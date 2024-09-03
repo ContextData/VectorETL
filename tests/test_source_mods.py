@@ -14,6 +14,7 @@ from vector_etl.source_mods.zoho_crm_loader import ZohoCrmSource
 from vector_etl.source_mods.zoho_desk_loader import ZohoDeskSource
 from vector_etl.source_mods.flutterwave_loader import FlutterWaveSource
 from vector_etl.source_mods.gmail_loader import GmailSource
+from vector_etl.source_mods.mailchimp_loader import MailChimpMarketingSource
 
 @pytest.fixture
 def s3_config():
@@ -138,6 +139,15 @@ def local_file_config():
         'chunk_overlap': 200
     }
 
+
+@pytest.fixture
+def mailchimp_config():
+    return {
+        'api_key': 'test_key',
+        'server': 'test_secret',
+        'records': 'test_bucket',
+    }
+    
 def test_s3_source_connect(s3_config):
     with patch('boto3.client') as mock_client:
         source = S3Source(s3_config)
@@ -377,6 +387,28 @@ def test_gmail_fetch_data(gmail_config):
       with patch('requests.get') as  mock_connect:
           mock_connect.return_value = [{}]
           source =  GmailSource(gmail_config)
+          df = source.fetch_data()
+
+          assert isinstance(df, pd.DataFrame)
+          
+          
+
+
+def test_mailchimp_connect(mailchimp_config):
+    
+    with patch('MailchimpMarketing.Client.set_config') as  mock_connect:
+        source =  MailChimpMarketingSource(mailchimp_config)
+        source.connect()
+        mock_connect.assert_called_once_with(
+        api_key="",
+        server=""
+        )    
+
+
+def test_mailchimp_fetch_data(mailchimp_config):
+      with patch('MailchimpMarketing.Client.set_config') as  mock_connect:
+          mock_connect.return_value = [{}]
+          source =   MailChimpMarketingSource(mailchimp_config)
           df = source.fetch_data()
 
           assert isinstance(df, pd.DataFrame)

@@ -18,6 +18,8 @@ from .intercom_loader import InterComSource
 from .paystack_loader import PayStackSource
 from .flutterwave_loader import FlutterWaveSource
 from .gmail_loader import GmailSource
+from .mailchimp_loader import MailChimpMarketingSource
+
 def get_source_class(config):
     source_type = config['source_data_type']
     if source_type == 'Amazon S3':
@@ -56,5 +58,7 @@ def get_source_class(config):
         return FlutterWaveSource(config)
     elif source_type == "Gmail":
         return GmailSource(config)
+    elif source_type == "MailChimp":
+        return MailChimpMarketingSource(config)
     else:
         raise ValueError(f"Unsupported source type: {source_type}")
