@@ -51,12 +51,16 @@ class WeaviateTarget(BaseTarget):
 
         class_name = self.config["class_name"]
 
+        # dropping id column if it exists as it is a reserved column in weaviate
+        id_columns = [col for col in df.columns if col.lower() == 'id']
+        df = df.drop(id_columns, axis=1, errors='ignore')
 
         with self.client.batch as batch:
             for _, row in df.iterrows():
                 if len(columns) > 0:
                     # columns.append("__concat_final")
                     metadata = {col: str(row[col]) for col in columns}
+
 
                     if domain:
                         metadata["domain"] = domain
