@@ -176,6 +176,7 @@ vector_etl/tempfile_downloads/
 *_bkp.py
 vector_etl/source_mods/backup/
 vector_etl/target_mods/backup/
+vector_etl/source_mods/bitbucket_loader.py
 
 # Additional files
 .DS_Store

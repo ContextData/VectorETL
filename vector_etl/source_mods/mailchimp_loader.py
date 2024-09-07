@@ -1,4 +1,4 @@
-from base import BaseSource
+from .base import BaseSource
 import mailchimp_marketing as MailchimpMarketing
 from mailchimp_marketing.api_client import ApiClientError
 import pandas as pd
