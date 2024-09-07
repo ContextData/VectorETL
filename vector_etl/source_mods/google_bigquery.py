@@ -1,6 +1,6 @@
 import os 
 from google.cloud import bigquery
-from base import BaseSource
+from .base import BaseSource
 import logging
 
 logging.basicConfig(level=logging.INFO)
