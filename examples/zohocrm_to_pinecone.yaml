@@ -22,4 +22,6 @@ target:
   cloud: "aws" #[Optional] Only required if creating a new index
   region: "us-east-1" #[Optional] Only required if creating a new index
 
+embed_columns: []
+
 

@@ -1,5 +1,5 @@
 import requests
-from .base import BaseSource
+from base import BaseSource
 import pandas as pd
 import logging
 
@@ -31,7 +31,23 @@ class AirTableSource(BaseSource):
         airtable_df = pd.DataFrame(df_data)
         
         return airtable_df
+    
+    
+    
+config = {
+    "auth_token": "patbteTvK8Hp5ceLd.d2efae5a90755f783f475c3515e7b17752f1e313bdb5c34d96726203838a709c",
+  "baseId": "appjx8zUtVJcjvxys",
+  "tableIdOrName": "Sales"
+}
 
+
+
+table = AirTableSource(config)
+
+
+data = table.fetch_data()
+
+print(data)
 
 
 

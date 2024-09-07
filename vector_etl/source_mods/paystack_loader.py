@@ -1,7 +1,6 @@
 from .base import BaseSource
 import logging
 import pandas as pd
-
 from paystackapi.paystack import Paystack
 
 

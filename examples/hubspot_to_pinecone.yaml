@@ -2,7 +2,6 @@ source:
   source_data_type: "HubSpot"
   archive: ""
   limit: ""
-  client_secret: ""
   access_token: ""
   crm_object: ""
   
@@ -19,5 +18,7 @@ target:
   metric: "cosine" #[Optional] Only required if creating a new index
   cloud: "aws" #[Optional] Only required if creating a new index
   region: "us-east-1" #[Optional] Only required if creating a new index
+
+embed_columns: []
 
 

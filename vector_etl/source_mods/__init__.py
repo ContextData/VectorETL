@@ -52,7 +52,7 @@ def get_source_class(config):
         return ZohoDeskSource(config)
     elif source_type == "InterCom":
         return InterComSource(config)
-    elif  source_type == 'PayStackS':
+    elif source_type == 'PayStacks':
         return PayStackSource(config)
     elif source_type == "FlutterWave":
         return FlutterWaveSource(config)
