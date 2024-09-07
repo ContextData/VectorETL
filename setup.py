@@ -69,6 +69,9 @@ setup(
         "pytest",
         "nltk",
         "pymilvus",
+        "zohocrmsdk7_0",
+        "paystackapi",
+        "mailchimp-marketing"
     ],
     entry_points={
         "console_scripts": [

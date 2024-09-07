@@ -68,7 +68,7 @@ class ZohoDeskSource(BaseSource):
         self.token = self.connect()
         if self.config['records'] == 'desk.agents':
             logger.info("Agents \n")
-            self.url = f"https://desk.zoho.com/api/v1/agents?limit={self.config['limit']}"
+            self.url = f"https://desk.zoho.com/api/v1/agents"
             
             
         elif self.config['records'] == 'desk.team':
@@ -92,12 +92,12 @@ class ZohoDeskSource(BaseSource):
         elif self.config['records'] == 'desk.ticket':
             logger.info("Ticket \n")
             self.url = f"""https://desk.zoho.com/api/v1/tickets?include=contacts,
-            assignee,departments,team,isRead&limit={self.config['limit']}"""
+            assignee,departments,team,isRead"""
             
         
         elif self.config['records'] == 'desk.contacts':
             logger.info("Contact \n")
-            self.url = f"https://desk.zoho.com/api/v1/contacts?limit={self.config['limit']}"
+            self.url = f"https://desk.zoho.com/api/v1/contacts"
             
            
                   
