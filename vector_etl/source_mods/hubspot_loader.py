@@ -72,12 +72,17 @@ class HubSpotSource(BaseSource):
             raise ValueError(f"Unsupported Crm object type: check the object name {self.config['crm_object']}")
         
         
-       response = self.connect(self.endpoints)['results']
-       results = [results['properties'] for results in response]    
-       df  = pd.DataFrame(results)
-       logger.info(f" data \n {df}")
+       response = self.connect(self.endpoints)
+       
+       if 'results' in response:
+            print(response)
+            results = [results['properties'] for results in response['results']]    
+            df  = pd.DataFrame(results)
+            logger.info(f" data \n {df}")
+            return df
+       else:
+          raise ValueError(response['message'])
         
-       return df
         
     
     
