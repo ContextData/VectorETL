@@ -20,6 +20,7 @@ from .flutterwave_loader import FlutterWaveSource
 from .gmail_loader import GmailSource
 from .mailchimp_loader import MailChimpMarketingSource
 from .digital_ocean_spaces_loader import DigitalOceanSpaceSource
+
 def get_source_class(config):
     source_type = config['source_data_type']
     if source_type == 'Amazon S3':
@@ -61,6 +62,6 @@ def get_source_class(config):
     elif source_type == "MailChimp":
         return MailChimpMarketingSource(config)
     elif source_type == "DigitalOcean":
-        DigitalOceanSpaceSource(config)
+       return DigitalOceanSpaceSource(config)
     else:
         raise ValueError(f"Unsupported source type: {source_type}")
