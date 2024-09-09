@@ -71,7 +71,7 @@ class GmailSource(BaseSource):
             msg = service.users().messages().get(userId="me", id=message["id"]).execute()
             headers = msg["payload"]["headers"]
 
-            subject, sender = self._get_header_info(headers)
+            subject, sender = self.get_header_info(headers)
             snippet = msg.get("snippet", "")
             body = self.get_body(msg)
 
