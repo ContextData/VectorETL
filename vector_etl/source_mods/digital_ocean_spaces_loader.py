@@ -49,6 +49,7 @@ class DigitalOceanSpaceSource(FileBaseSource):
 
         return downloaded_files
 
+
     def download_file(self, file_path):
         if not self.s3_client:
             self.connect()
@@ -63,7 +64,9 @@ class DigitalOceanSpaceSource(FileBaseSource):
         self.s3_client.download_file(self.bucket_name, file_path, local_file_path)
         logger.info(f"Downloaded {file_path} to {os.getcwd()}")
 
+
     def delete_directory(self, path):
+
         for root, dirs, files in os.walk(path, topdown=False):
             for file in files:
                 os.remove(os.path.join(root, file))
