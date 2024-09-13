@@ -1,7 +1,7 @@
 source:
   source_data_type: "AirTable"
   auth_token: ""
-  baseId: "sales"
+  baseId: ""
   tableIdOrName: ""
   
 embedding:
@@ -11,13 +11,13 @@ embedding:
 
 target:
   target_database: "Pinecone"
-  pinecone_api_key: ""
-  index_name: ""
+  pinecone_api_key: "0f6d7a64-f37c-4c72-a9f6-d00f9b1db2c2"
+  index_name: "context-data-etl-test"
   dimension: 1536 #[Optional] Only required if creating a new index
   metric: "cosine" #[Optional] Only required if creating a new index
   cloud: "aws" #[Optional] Only required if creating a new index
   region: "us-east-1" #[Optional] Only required if creating a new index
 
-embed_columns: []
 
+embed_columns: []
 

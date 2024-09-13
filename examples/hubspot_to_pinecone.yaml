@@ -1,9 +1,9 @@
 source:
   source_data_type: "HubSpot"
-  archive: ""
-  limit: ""
+  archive: "false"
+  limit: "100"
   access_token: ""
-  crm_object: ""
+  crm_object: "crm.contacts"
   
 embedding:
   embedding_model: "OpenAI"
@@ -19,6 +19,8 @@ target:
   cloud: "aws" #[Optional] Only required if creating a new index
   region: "us-east-1" #[Optional] Only required if creating a new index
 
+
 embed_columns: []
+
 
 

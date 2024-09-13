@@ -1,6 +1,6 @@
 source:
   source_data_type: "InterCom"
-  token: "FlutterWave"
+  token: ""
   records: "intercom.teams"
   
 embedding:
