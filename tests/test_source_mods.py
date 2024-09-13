@@ -5,16 +5,10 @@ from io import BytesIO
 from vector_etl.source_mods.s3_loader import S3Source
 from vector_etl.source_mods.database_loader import DatabaseSource
 from vector_etl.source_mods.local_file import LocalFileSource
-from vector_etl.source_mods.google_bigquery import GoogleBigQuerySource
 from vector_etl.source_mods.airtable_loader import AirTableSource
 from vector_etl.source_mods.hubspot_loader import HubSpotSource
 from vector_etl.source_mods.intercom_loader import InterComSource
-from vector_etl.source_mods.paystack_loader import PayStackSource
-from vector_etl.source_mods.zoho_crm_loader import ZohoCrmSource
-from vector_etl.source_mods.zoho_desk_loader import ZohoDeskSource
-from vector_etl.source_mods.flutterwave_loader import FlutterWaveSource
-from vector_etl.source_mods.gmail_loader import GmailSource
-from vector_etl.source_mods.mailchimp_loader import MailChimpMarketingSource
+from vector_etl.source_mods.digital_ocean_spaces_loader import DigitalOceanSpaceSource
 
 @pytest.fixture
 def s3_config():
@@ -27,14 +21,21 @@ def s3_config():
         'chunk_overlap': 200
     }
     
+
 @pytest.fixture
-def google_bigquery_config():
+def digital_ocean_config():
     return {
-    "source_data_type": "Google BigQuery",
-    "google_application_credentials": "",
-     "query": "SELECT * FROM chipotle_stores LIMIT 10"
-        
+        'aws_access_key_id': 'test_key',
+        'endpoint_url':'text_endpoint',
+        'region_name':'text_region',
+        'aws_secret_access_key': 'test_secret',
+        'bucket_name': 'test_bucket',
+        'prefix': 'test_prefix/',
+        'chunk_size': 1000,
+        'chunk_overlap': 200
     }
+    
+
 
 
 @pytest.fixture
@@ -47,40 +48,7 @@ def airtable_config():
     }
     
 
-@pytest.fixture
-def gmail_config():
-    return {
-        'credentials': 'credentials.json', ## path to gmail crendtials
-        'gmail.label': 'IMPORTANT'  # Specify the label in the config
-    }
-    
-    
-    
-    
-@pytest.fixture
-def zohodesk_config():
-    return{
-            "grant_type":"",
-            "client_id": "",
-            "client_secret": "",
-            "code": "",
-            "limit":"",
-            "records":"desk.team",
-            "accounts_url":""
-        }
 
-
-@pytest.fixture
-def zohocrm_config():
-    return{
-            "grant_type":"",
-            "client_id": "",
-            "client_secret": "",
-            "code": "",
-            "per_page":"10",
-            "records":"module.Call",
-            "accounts_url":""
-        }
     
 
 @pytest.fixture
@@ -93,21 +61,6 @@ def hubspot_config():
         }
     
 
-@pytest.fixture
-def paystack_config():
-    return{
-            "paystack_secret_key":"",
-            "records": "paystack.transactions",
-        }
-    
-
-
-@pytest.fixture
-def flutterwave_config():
-    return{
-            "secret_key":"",
-            "records": "flutterwave.payout-subaccounts",
-        }
     
 @pytest.fixture
 def intercom_config():
@@ -140,13 +93,8 @@ def local_file_config():
     }
 
 
-@pytest.fixture
-def mailchimp_config():
-    return {
-        'api_key': 'test_key',
-        'server': 'test_secret',
-        'records': 'test_bucket',
-    }
+
+
     
 def test_s3_source_connect(s3_config):
     with patch('boto3.client') as mock_client:
@@ -210,23 +158,6 @@ def test_local_file_source_read_file(local_file_config):
         assert isinstance(file_content, BytesIO)
         
   
-def test_google_bigquery_connect(google_bigquery_config):
-    with patch('bigquery.connect') as  mock_connect:
-        source = GoogleBigQuerySource(google_bigquery_config)
-        source.connect()
-        mock_connect.assert_called_once_with(
-            source_data_type="Google BigQuery",
-    google_application_credentials="",
-     query="SELECT * FROM chipotle_stores LIMIT 10"
-        )
-        
-
-def test_google_bigquery_fetch_data(google_bigquery_config):
-      with patch('bigquery.connect') as  mock_connect:
-          mock_connect.result.to_dataframe.return_value = pd.DataFrame()
-          source =  GoogleBigQuerySource(google_bigquery_config)
-          df = source.fetch_data()
-          assert isinstance(df, pd.DataFrame)
 
 
 def test_airtable_connect(airtable_config):
@@ -257,83 +188,35 @@ def test_airtable_fetch_data(airtable_config):
 
           assert isinstance(df, pd.DataFrame)
           
-          
-def test_zohodesk_connect(zohodesk_config):
-    
-    with patch('requests.get') as  mock_connect:
-        source = ZohoDeskSource(zohodesk_config)
-        source.connect()
-        mock_connect.assert_called_once_with(
-        grant_type="",
-        client_id = "",
-        client_secret="",
-        code="",
-        accounts_url=""
-        ) 
 
-
-def test_zohodesk_fetch_data(zohodesk_config):
-      with patch('requests.get') as  mock_connect:
-          mock_connect.return_value = [ {
-            "Address": "333 Post St",
-            "Name": "Union Square",
-            "Visited": True
-        }
-        ]
-          
-          source =  ZohoDeskSource(zohodesk_config)
-          df = source.fetch_data()
-
-          assert isinstance(df, pd.DataFrame)
-          
-def test_zohocrm_connect(zohocrm_config):
-    
-    with patch('requests.get') as  mock_connect:
-        source = ZohoCrmSource(zohocrm_config)
-        source.connect()
-        mock_connect.assert_called_once_with(
-        grant_type="",
-        client_id = "",
-        client_secret="",
-        code="",
-        accounts_url=""
-        ) 
-
-
-def test_zohocrm_fetch_data(zohocrm_config):
-      with patch('requests.get') as  mock_connect:
-          mock_connect.return_value = [ {  }
-        ]
-          
-          source =  ZohoCrmSource(zohocrm_config)
-          df = source.fetch_data()
-
-          assert isinstance(df, pd.DataFrame)
-
-def test_paystack_connect(paystack_config):
-    
-    with patch('requests.get') as  mock_connect:
-        source = PayStackSource(paystack_config)
-        source.connect()
-        mock_connect.assert_called_once_with(
-        paystack_secret_key="",
-        ) 
-
-
-def test_paystack_fetch_data(paystack_config):
-      with patch('Paystack') as  mock_connect:
-          mock_connect.return_value = [{}]
-          
-          source =  PayStackSource(paystack_config)
-          df = source.fetch_data()
-
-          assert isinstance(df, pd.DataFrame)
           
 
 def test_intercom_connect(intercom_config):
     
     with patch('requests.get') as  mock_connect:
         source = InterComSource(intercom_config)
+        source.connect()
+        mock_connect.assert_called_once_with(
+        secret_key="",
+        )    
+
+
+def test_hubspot_fetch_data(hubspot_config):
+      with patch('requests.get') as  mock_connect:
+          mock_connect.return_value = [{}]
+          
+          source =  HubSpotSource(hubspot_config)
+          df = source.fetch_data()
+
+          assert isinstance(df, pd.DataFrame)
+          
+
+
+
+def test_hubspot_connect(hubspot_config):
+    
+    with patch('requests.get') as  mock_connect:
+        source = HubSpotSource(hubspot_config)
         source.connect()
         mock_connect.assert_called_once_with(
         secret_key="",
@@ -351,67 +234,36 @@ def test_intercom_fetch_data(intercom_config):
           
           
 
-def test_flutterwave_connect(flutterwave_config):
-    
-    with patch('requests.get') as  mock_connect:
-        source =  FlutterWaveSource(flutterwave_config)
+
+def test_digital_ocean_source_connect(s3_config):
+    with patch('boto3.client') as mock_client:
+        source = DigitalOceanSpaceSource(s3_config)
         source.connect()
-        mock_connect.assert_called_once_with(
-        secret_key="",
-        )    
+        mock_client.assert_called_once_with(
+            's3',
+            aws_access_key_id='test_key',
+            aws_secret_access_key='test_secret',
+            endpoint_url='text_endpoint',
+            region_name='text_region',
+        )
 
+def test_s3_digital_ocean_list_files(s3_config):
+    with patch('boto3.client') as mock_client:
+        mock_paginator = Mock()
+        mock_paginator.paginate.return_value = [
+            {'Contents': [{'Key': 'test_prefix/file1.csv'}, {'Key': 'test_prefix/file2.csv'}]}
+        ]
+        mock_client.return_value.get_paginator.return_value = mock_paginator
 
-def test_flutterwave_fetch_data(flutterwave_config):
-      with patch('requests.get') as  mock_connect:
-          mock_connect.return_value = [{}]
-          
-          source =  FlutterWaveSource(flutterwave_config)
-          df = source.fetch_data()
-
-          assert isinstance(df, pd.DataFrame)
-          
-
-
-
-def test_gmail_connect(gmail_config):
-    
-    with patch('InstalledAppFlow.from_client_secrets_file') as  mock_connect:
-        source =  GmailSource(gmail_config)
+        source = DigitalOceanSpaceSource(s3_config)
         source.connect()
-        mock_connect.assert_called_once_with(
-        credentials="credential.json",
-        )    
+        files = source.list_files()
 
-
-def test_gmail_fetch_data(gmail_config):
-      with patch('requests.get') as  mock_connect:
-          mock_connect.return_value = [{}]
-          source =  GmailSource(gmail_config)
-          df = source.fetch_data()
-
-          assert isinstance(df, pd.DataFrame)
+        assert files == ['test_prefix/file1.csv', 'test_prefix/file2.csv']
+          
           
           
 
-
-def test_mailchimp_connect(mailchimp_config):
-    
-    with patch('MailchimpMarketing.Client.set_config') as  mock_connect:
-        source =  MailChimpMarketingSource(mailchimp_config)
-        source.connect()
-        mock_connect.assert_called_once_with(
-        api_key="",
-        server=""
-        )    
-
-
-def test_mailchimp_fetch_data(mailchimp_config):
-      with patch('MailchimpMarketing.Client.set_config') as  mock_connect:
-          mock_connect.return_value = [{}]
-          source =   MailChimpMarketingSource(mailchimp_config)
-          df = source.fetch_data()
-
-          assert isinstance(df, pd.DataFrame)
 
 
 

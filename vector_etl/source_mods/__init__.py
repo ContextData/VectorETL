@@ -10,15 +10,8 @@ from .google_drive import GoogleDriveSource
 from .google_cloud_storage import GoogleCloudStorageSource
 from .local_file import LocalFileSource
 from .airtable_loader import AirTableSource
-from .google_bigquery import GoogleBigQuerySource
 from .hubspot_loader import HubSpotSource
-from .zoho_crm_loader import ZohoCrmSource
-from .zoho_desk_loader import ZohoDeskSource
 from .intercom_loader import InterComSource
-from .paystack_loader import PayStackSource
-from .flutterwave_loader import FlutterWaveSource
-from .gmail_loader import GmailSource
-from .mailchimp_loader import MailChimpMarketingSource
 from .digital_ocean_spaces_loader import DigitalOceanSpaceSource
 
 def get_source_class(config):
@@ -43,24 +36,10 @@ def get_source_class(config):
         return GoogleCloudStorageSource(config)
     elif source_type == 'AirTable':
         return AirTableSource(config)
-    elif source_type == 'Google BigQuery':
-        return GoogleBigQuerySource(config)
     elif source_type == 'HubSpot':
         return HubSpotSource(config)
-    elif source_type == 'ZohoCrm':
-        return ZohoCrmSource(config)
-    elif source_type == 'ZohoDesk':
-        return ZohoDeskSource(config)
     elif source_type == "InterCom":
         return InterComSource(config)
-    elif source_type == 'PayStacks':
-        return PayStackSource(config)
-    elif source_type == "FlutterWave":
-        return FlutterWaveSource(config)
-    elif source_type == "Gmail":
-        return GmailSource(config)
-    elif source_type == "MailChimp":
-        return MailChimpMarketingSource(config)
     elif source_type == "DigitalOcean":
        return DigitalOceanSpaceSource(config)
     else:
