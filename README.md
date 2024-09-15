@@ -307,6 +307,46 @@ source:
   chunk_overlap: 0
 ```
 
+##### DigitalOcean Source
+```yaml
+source:
+  source_data_type: "DigitalOcean"
+  bucket_name: "my-bucket"
+  key: "path/to/files/"
+  file_type: ".csv"
+  region_name: 'your region'
+  endpoint_url: 'your endpointurl'
+  aws_access_key_id: "your-access-key"
+  aws_secret_access_key: "your-secret-key"
+```
+
+##### Airtable Source
+```yaml
+source:
+  source_data_type: "AirTable"
+  auth_token: ""
+  baseId: ""
+  tableIdOrName: ""
+```
+
+##### Hubspot Source
+```yaml
+source:
+  source_data_type: "HubSpot"
+  archive: "false"
+  limit: "100"
+  access_token: ""
+  crm_object: "crm.contacts"
+```
+
+##### Intercom Source
+```yaml
+source:
+  source_data_type: "InterCom"
+  token: ""
+  records: "intercom.teams"
+```
+
 #### Using Unstructured to process source files
 
 Starting from version 0.1.6.3, you can now add Unstructured as file processing API. Users can now utilize the [Unstructured's Serverless API](https://unstructured.io/api-key-hosted) to efficiently extract data from a multitude of file based sources.
