@@ -9,7 +9,6 @@
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" /></a>
   <a href="https://pypi.org/project/vector-etl/"><img src="https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github" /></a>
   [![Downloads](https://static.pepy.tech/badge/vector-etl/month)](https://pepy.tech/project/vector-etl)
-  [![Downloads](https://static.pepy.tech/badge/vector-etl/week)](https://pepy.tech/project/vector-etl)
 
 </div>
 
@@ -17,7 +16,9 @@
   <p>VectorETL: Lightweight ETL Framework for Vector Databases</p>
 </h2>
 
-VectorETL by [Context Data](https://contextdata.ai) is a flexible and modular Python framework designed to streamline the process of converting diverse data sources into vector embeddings and storing them in various vector databases. It supports multiple data sources (databases, cloud storage, and local files), various embedding models (including OpenAI, Cohere, and Google Gemini), and several vector database targets (like Pinecone, Qdrant, and Weaviate).
+VectorETL by [Context Data](https://contextdata.ai) is a modular framework designed to help **Data & AI engineers process data for their AI applications in just a few minutes!**
+
+VectorETL streamlines the process of converting diverse data sources into vector embeddings and storing them in various vector databases. It supports multiple data sources (databases, cloud storage, and local files), various embedding models (including OpenAI, Cohere, and Google Gemini), and several vector database targets (like Pinecone, Qdrant, and Weaviate).
 
 This pipeline aims to simplify the creation and management of vector search systems, enabling developers and data scientists to easily build and scale applications that require semantic search, recommendation systems, or other vector-based operations.
 
@@ -59,18 +60,102 @@ or
 
 This section provides instructions on how to use the ETL framework for Vector Databases. We'll cover running, validating configurations, and provide some common usage examples.
 
-### Running the ETL Framework
+### Option 1: Import VectorETL into your python application
+
+```python
+from vector_etl import create_flow
+
+source = {
+    "source_data_type": "database",
+    "db_type": "postgres",
+    "host": "localhost",
+    "port": "5432",
+    "database_name": "test",
+    "username": "user",
+    "password": "password",
+    "query": "select * from test",
+    "batch_size": 1000,
+    "chunk_size": 1000,
+    "chunk_overlap": 0,
+}
+
+embedding = {
+    "embedding_model": "OpenAI",
+    "api_key": ${OPENAI_API_KEY},
+    "model_name": "text-embedding-ada-002"
+}
+
+target = {
+    "target_database": "Pinecone",
+    "pinecone_api_key": ${PINECONE_API_KEY},
+    "index_name": "my-pinecone-index",
+    "dimension": 1536
+}
+
+embed_columns = ["customer_name", "customer_description", "purchase_history"]
+
+flow = create_flow()
+flow.set_source(source)
+flow.set_embedding(embedding)
+flow.set_target(target)
+flow.set_embed_columns(embed_columns)
+
+# Execute the flow
+flow.execute()
+```
+
+### Option 2: Import VectorETL into your python application (using a yaml configuration file)
+
+Assuming you have a configuration file similar to the file below.
+
+```yaml
+source:
+  source_data_type: "database"
+  db_type: "postgres"
+  host: "localhost"
+  database_name: "customer_data"
+  username: "user"
+  password: "password"
+  port: 5432
+  query: "SELECT * FROM customers WHERE updated_at > :last_updated_at"
+  batch_size: 1000
+  chunk_size: 1000
+  chunk_overlap: 0
+
+embedding:
+  embedding_model: "OpenAI"
+  api_key: ${OPENAI_API_KEY}
+  model_name: "text-embedding-ada-002"
+
+target:
+  target_database: "Pinecone"
+  pinecone_api_key: ${PINECONE_API_KEY}
+  index_name: "customer-embeddings"
+  dimension: 1536
+  metric: "cosine"
+
+embed_columns:
+  - "customer_name"
+  - "customer_description"
+  - "purchase_history"
+```
+You can then import the configuration into your python project and automatically run it from there
+```python
+from vector_etl import create_flow
+
+flow = create_flow()
+flow.load_yaml('/path/to/your/config.yaml')
+flow.execute()
+```
+
+### Option 3: Running from the command line using a configuration file
+
+Using the same yaml configuration file from Option 2 above, you can run the process directly from your command line without having to import it into a python application.
 
 To run the ETL framework, use the following command:
 
 ```bash
 vector-etl -c /path/to/your/config.yaml
-```
-
-or if you're using a JSON configuration:
-
-```bash
-vector-etl -c /path/to/your/config.json
 ```
 
 ### Common Usage Examples
@@ -152,7 +237,9 @@ embed_columns: []
 
 ## 3. Project Overview
 
-The VectorETL (Extract, Transform, Load) framework is a powerful and flexible tool designed to streamline the process of extracting data from various sources, transforming it into vector embeddings, and loading these embeddings into a range of vector databases. It's built with modularity, scalability, and ease of use in mind, making it an ideal solution for organizations looking to leverage the power of vector search in their data infrastructure.
+The VectorETL (Extract, Transform, Load) framework is a powerful and flexible tool designed to streamline the process of extracting data from various sources, transforming it into vector embeddings, and loading these embeddings into a range of vector databases.
+
+It's built with modularity, scalability, and ease of use in mind, making it an ideal solution for organizations looking to leverage the power of vector search in their data infrastructure.
 
 ### Key Aspects:
 
@@ -191,7 +278,42 @@ The configuration file is divided into three main sections:
 
 ### Example Configurations
 
-#### YAML Configuration
+#### Importing VectorETL into your python application
+
+```python
+from vector_etl import create_flow
+
+source = {
+    "source_data_type": "database",
+    "db_type": "postgres",
+    "host": "localhost",
+    "port": "5432",
+    "database_name": "test",
+    "username": "user",
+    "password": "password",
+    "query": "select * from test",
+    "batch_size": 1000,
+    "chunk_size": 1000,
+    "chunk_overlap": 0,
+}
+
+embedding = {
+    "embedding_model": "OpenAI",
+    "api_key": ${OPENAI_API_KEY},
+    "model_name": "text-embedding-ada-002"
+}
+
+target = {
+    "target_database": "Pinecone",
+    "pinecone_api_key": ${PINECONE_API_KEY},
+    "index_name": "my-pinecone-index",
+    "dimension": 1536
+}
+
+embed_columns = ["customer_name", "customer_description", "purchase_history"]
+```
+
+#### Standalone YAML File Configuration (e.g. config.yaml)
 
 ```yaml
 source:
@@ -227,7 +349,7 @@ embed_columns:
   - "column3"
 ```
 
-#### JSON Configuration
+#### Standalone JSON File Configuration (e.g. config.json)
 
 ```json
 {
@@ -244,11 +366,13 @@ embed_columns:
     "chunk_size": 1000,
     "chunk_overlap": 0
   },
+
   "embedding": {
     "embedding_model": "OpenAI",
     "api_key": "your-openai-api-key",
     "model_name": "text-embedding-ada-002"
   },
+
   "target": {
     "target_database": "Pinecone",
     "pinecone_api_key": "your-pinecone-api-key",
@@ -258,6 +382,7 @@ embed_columns:
     "cloud": "aws",
     "region": "us-west-2"
   },
+
   "embed_columns": ["column1", "column2", "column3"]
 }
 ```
@@ -269,6 +394,22 @@ embed_columns:
 The `source` section varies based on the `source_data_type`. Here are examples for different source types:
 
 ##### Database Source
+```json
+{
+  "source_data_type": "database",
+  "db_type": "postgres",  # or "mysql", "snowflake", "salesforce"
+  "host": "localhost",
+  "database_name": "mydb",
+  "username": "user",
+  "password": "password",
+  "port": 5432,
+  "query": "SELECT * FROM mytable WHERE updated_at > :last_updated_at",
+  "batch_size": 1000,
+  "chunk_size": 1000,
+  "chunk_overlap": 0
+}
+```
+
 ```yaml
 source:
   source_data_type: "database"
@@ -285,6 +426,17 @@ source:
 ```
 
 ##### S3 Source
+```json
+{
+  "source_data_type": "Amazon S3",
+  "bucket_name": "my-bucket",
+  "key": "path/to/files/",
+  "file_type": ".csv",
+  "aws_access_key_id": "your-access-key",
+  "aws_secret_access_key": "your-secret-key"
+}
+```
+
 ```yaml
 source:
   source_data_type: "Amazon S3"
@@ -296,6 +448,18 @@ source:
 ```
 
 ##### Google Cloud Storage (GCS) Source
+```json
+{
+  "source_data_type": "Google Cloud Storage",
+  "credentials_path": "/path/to/your/credentials.json",
+  "bucket_name": "myBucket",
+  "prefix": "prefix/",
+  "file_type": "csv",
+  "chunk_size": 1000,
+  "chunk_overlap": 0
+}
+```
+
 ```yaml
 source:
   source_data_type: "Google Cloud Storage"
@@ -309,7 +473,9 @@ source:
 
 #### Using Unstructured to process source files
 
-Starting from version 0.1.6.3, you can now add Unstructured as file processing API. Users can now utilize the [Unstructured's Serverless API](https://unstructured.io/api-key-hosted) to efficiently extract data from a multitude of file based sources.
+Starting from version 0.1.6.3, users can now utilize the [Unstructured's Serverless API](https://unstructured.io/api-key-hosted) to efficiently extract data from a multitude of file based sources.
+
+**NOTE:** This is limited to the Unstructured Severless API and should not be used for the Unstructured's open source framework
 
 **This is limited to [PDF, DOCX, DOC, TXT] files**
 

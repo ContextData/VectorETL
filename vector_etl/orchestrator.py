@@ -124,3 +124,16 @@ class ETLOrchestrator:
 def run_etl_process(source_config, embedding_config, target_config, embed_columns):
     orchestrator = ETLOrchestrator(source_config, embedding_config, target_config, embed_columns)
     orchestrator.run()
+
+def run_etl_process_py(config):
+    # Replace the config loading from file with the direct config dict
+    source_config = config['source']
+    embedding_config = config['embedding']
+    target_config = config['target']
+    embed_columns = config.get('embed_columns', [])
+
+    orchestrator = ETLOrchestrator(source_config,
+                                   embedding_config,
+                                   target_config,
+                                   embed_columns)
+    orchestrator.run()

@@ -14,7 +14,7 @@ class PineconeTarget(BaseTarget):
 
     def connect(self):
         logger.info("Connecting to Pinecone...")
-        self.client = Pinecone(api_key=self.config["pinecone_api_key"], source_tag="contextdata-dev")
+        self.client = Pinecone(api_key=self.config["pinecone_api_key"], source_tag="contextdata")
         # pc = Pinecone(api_key=self.config["pinecone_api_key"], source_tag="contextdata")
 
         # self.index = pc.Index(self.config["index_name"])
@@ -56,6 +56,7 @@ class PineconeTarget(BaseTarget):
                     "values": row["embeddings"],
                     "metadata": metadata_data
                 }
+                columns.remove("__concat_final")
             elif len(columns) == 0:
                 data = {
                     "id": str(row["df_uuid"]),

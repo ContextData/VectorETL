@@ -79,6 +79,7 @@ class DatabaseSource(BaseSource):
 
             columns = [desc[0] for desc in self.cursor.description]
             df_batch = pd.DataFrame(batch, columns=columns)
+            logger.info(f"========== Retrieved batch of {len(df_batch)} rows ===========")
 
             yield df_batch
 
