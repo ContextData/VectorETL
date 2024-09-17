@@ -1,6 +1,6 @@
 import logging
 import pandas as pd
-from pymilvus import MilvusClient, DataType, Collection
+from pymilvus import MilvusClient, DataType
 from .base import BaseTarget
 
 logging.basicConfig(level=logging.INFO)
