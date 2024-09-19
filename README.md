@@ -60,51 +60,7 @@ or
 
 This section provides instructions on how to use the ETL framework for Vector Databases. We'll cover running, validating configurations, and provide some common usage examples.
 
-### Option 1: Import VectorETL into your python application
-
-```python
-from vector_etl import create_flow
-
-source = {
-    "source_data_type": "database",
-    "db_type": "postgres",
-    "host": "localhost",
-    "port": "5432",
-    "database_name": "test",
-    "username": "user",
-    "password": "password",
-    "query": "select * from test",
-    "batch_size": 1000,
-    "chunk_size": 1000,
-    "chunk_overlap": 0,
-}
-
-embedding = {
-    "embedding_model": "OpenAI",
-    "api_key": ${OPENAI_API_KEY},
-    "model_name": "text-embedding-ada-002"
-}
-
-target = {
-    "target_database": "Pinecone",
-    "pinecone_api_key": ${PINECONE_API_KEY},
-    "index_name": "my-pinecone-index",
-    "dimension": 1536
-}
-
-embed_columns = ["customer_name", "customer_description", "purchase_history"]
-
-flow = create_flow()
-flow.set_source(source)
-flow.set_embedding(embedding)
-flow.set_target(target)
-flow.set_embed_columns(embed_columns)
-
-# Execute the flow
-flow.execute()
-```
-
-### Option 2: Import VectorETL into your python application (using a yaml configuration file)
+### Option 1: Import VectorETL into your python application (using a yaml configuration file)
 
 Assuming you have a configuration file similar to the file below.
 
@@ -148,7 +104,7 @@ flow.load_yaml('/path/to/your/config.yaml')
 flow.execute()
 ```
 
-### Option 3: Running from the command line using a configuration file
+### Option 2: Running from the command line using a configuration file
 
 Using the same yaml configuration file from Option 2 above, you can run the process directly from your command line without having to import it into a python application.
 
@@ -156,6 +112,50 @@ To run the ETL framework, use the following command:
 
 ```bash
 vector-etl -c /path/to/your/config.yaml
+```
+
+### Option 3: Import VectorETL into your python application
+
+```python
+from vector_etl import create_flow
+
+source = {
+    "source_data_type": "database",
+    "db_type": "postgres",
+    "host": "localhost",
+    "port": "5432",
+    "database_name": "test",
+    "username": "user",
+    "password": "password",
+    "query": "select * from test",
+    "batch_size": 1000,
+    "chunk_size": 1000,
+    "chunk_overlap": 0,
+}
+
+embedding = {
+    "embedding_model": "OpenAI",
+    "api_key": ${OPENAI_API_KEY},
+    "model_name": "text-embedding-ada-002"
+}
+
+target = {
+    "target_database": "Pinecone",
+    "pinecone_api_key": ${PINECONE_API_KEY},
+    "index_name": "my-pinecone-index",
+    "dimension": 1536
+}
+
+embed_columns = ["customer_name", "customer_description", "purchase_history"]
+
+flow = create_flow()
+flow.set_source(source)
+flow.set_embedding(embedding)
+flow.set_target(target)
+flow.set_embed_columns(embed_columns)
+
+# Execute the flow
+flow.execute()
 ```
 
 ### Common Usage Examples
