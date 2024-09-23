@@ -9,6 +9,10 @@ from .zendesk_loader import ZendeskSource
 from .google_drive import GoogleDriveSource
 from .google_cloud_storage import GoogleCloudStorageSource
 from .local_file import LocalFileSource
+from .airtable_loader import AirTableSource
+from .hubspot_loader import HubSpotSource
+from .intercom_loader import InterComSource
+from .digital_ocean_spaces_loader import DigitalOceanSpaceSource
 
 def get_source_class(config):
     source_type = config['source_data_type']
@@ -30,5 +34,13 @@ def get_source_class(config):
         return GoogleDriveSource(config)
     elif source_type == 'Google Cloud Storage':
         return GoogleCloudStorageSource(config)
+    elif source_type == 'AirTable':
+        return AirTableSource(config)
+    elif source_type == 'HubSpot':
+        return HubSpotSource(config)
+    elif source_type == "InterCom":
+        return InterComSource(config)
+    elif source_type == "DigitalOcean":
+       return DigitalOceanSpaceSource(config)
     else:
         raise ValueError(f"Unsupported source type: {source_type}")

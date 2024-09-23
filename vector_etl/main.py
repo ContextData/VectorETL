@@ -6,6 +6,7 @@ import argparse
 from vector_etl import __version__, run_etl_process, run_etl_process_py
 from vector_etl.orchestrator import run_etl_process, run_etl_process_py
 
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
