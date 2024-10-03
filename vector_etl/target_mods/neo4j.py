@@ -71,25 +71,27 @@ class Neo4jTarget(BaseTarget):
         nodes = self.config['graph_structure']['nodes']
         relationships = self.config['graph_structure']['relationships']
 
-        # Create Entity node
         vector_prop = self.sanitize_property_name(self.config['vector_property'])
         create_entity = f"CREATE (e:Entity {{id: row.id, {vector_prop}: row.embedding}})"
 
-        # Create specific nodes and connect to Entity
         create_nodes = []
         for node in nodes:
             props = ", ".join([f"{self.sanitize_property_name(prop)}: row.metadata['{prop}']" for prop in node['properties']])
-            create_nodes.append(f"""
-                CREATE (n_{node['label']}:{node['label']} {{{props}}})
-                CREATE (e)-[:HAS_{node['label']}]->(n_{node['label']})
-            """)
+            if node.get('unique', False):
+                create_nodes.append(f"""
+                    MERGE (n_{node['label']}:{node['label']} {{{props}}})
+                    CREATE (e)-[:HAS_{node['label']}]->(n_{node['label']})
+                """)
+            else:
+                create_nodes.append(f"""
+                    CREATE (n_{node['label']}:{node['label']} {{{props}}})
+                    CREATE (e)-[:HAS_{node['label']}]->(n_{node['label']})
+                """)
 
-        # Create relationships between specific nodes
         create_relationships = []
         for rel in relationships:
             create_relationships.append(f"CREATE (n_{rel['start_node']})-[:{rel['type']}]->(n_{rel['end_node']})")
 
-        # Combine all parts
         cypher_query = f"""
         UNWIND $batch AS row
         {create_entity}
