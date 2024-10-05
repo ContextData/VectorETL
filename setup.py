@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="vector-etl",
-    version="0.1.7",
+    version="0.1.7.1",
     author="Jide Ogunjobi",
     author_email="jide@contextdata.ai",
     description="Lightweight ETL pipeline for processing data into vector databases",

@@ -80,7 +80,7 @@ class Neo4jTarget(BaseTarget):
             if node.get('unique', False):
                 create_nodes.append(f"""
                     MERGE (n_{node['label']}:{node['label']} {{{props}}})
-                    CREATE (e)-[:HAS_{node['label']}]->(n_{node['label']})
+                    MERGE (e)-[:HAS_{node['label']}]->(n_{node['label']})
                 """)
             else:
                 create_nodes.append(f"""
@@ -90,7 +90,14 @@ class Neo4jTarget(BaseTarget):
 
         create_relationships = []
         for rel in relationships:
-            create_relationships.append(f"CREATE (n_{rel['start_node']})-[:{rel['type']}]->(n_{rel['end_node']})")
+            if rel.get('unique', False):
+                create_relationships.append(f"""
+                    MERGE (n_{rel['start_node']})-[:{rel['type']}]->(n_{rel['end_node']})
+                """)
+            else:
+                create_relationships.append(f"""
+                    CREATE (n_{rel['start_node']})-[:{rel['type']}]->(n_{rel['end_node']})
+                """)
 
         cypher_query = f"""
         UNWIND $batch AS row
