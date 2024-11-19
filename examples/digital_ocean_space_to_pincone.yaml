@@ -1,0 +1,26 @@
+source:
+  source_data_type: "DigitalOcean"
+  bucket_name: ""
+  prefix: ""
+  region_name: ''
+  endpoint_url: ''
+  file_type: "csv" #required if prefix is a directory: Will retrieve all files with filetype
+  aws_access_key_id: ""
+  aws_secret_access_key: ""
+
+embedding:
+  embedding_model: "OpenAI"
+  api_key: "your-openai-api-key"
+  model_name: "text-embedding-ada-002"
+
+target:
+  target_database: "Pinecone"
+  pinecone_api_key: ""
+  index_name: ""
+  dimension: 1536 #[Optional] Only required if creating a new index
+  metric: "cosine" #[Optional] Only required if creating a new index
+  cloud: "aws" #[Optional] Only required if creating a new index
+  region: "us-east-1" #[Optional] Only required if creating a new index
+
+
+embed_columns: []
