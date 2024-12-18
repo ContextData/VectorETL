@@ -14,7 +14,7 @@ pymysql
 pandas
 qdrant-client
 singlestoredb
-weaviate-client
+weaviate-client==v4.9.6
 azure-storage-blob
 google-cloud-storage
 snowflake-connector-python
